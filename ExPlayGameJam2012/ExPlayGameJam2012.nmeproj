@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">Android</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}</ProjectGuid>
+    <TargetNMMLFile>project.nmml</TargetNMMLFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Android' ">
+    <DebugSymbols>True</DebugSymbols>
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|BlackBerry' ">
+    <DebugSymbols>True</DebugSymbols>
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Flash' ">
+    <DebugSymbols>True</DebugSymbols>
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|HTML5' ">
+    <DebugSymbols>True</DebugSymbols>
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iOS' ">
+    <DebugSymbols>True</DebugSymbols>
+    <OutputPath>.</OutputPath>
+    <AdditionalArguments>-simulator</AdditionalArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Linux' ">
+    <DebugSymbols>True</DebugSymbols>
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Mac' ">
+    <DebugSymbols>True</DebugSymbols>
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|webOS' ">
+    <DebugSymbols>True</DebugSymbols>
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Windows' ">
+    <DebugSymbols>True</DebugSymbols>
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Android' ">
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|BlackBerry' ">
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Flash' ">
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|HTML5' ">
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iOS' ">
+    <OutputPath>.</OutputPath>
+    <AdditionalArguments>-simulator</AdditionalArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Linux' ">
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Mac' ">
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|webOS' ">
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Windows' ">
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Assets\nme.svg" />
+    <Compile Include="project.nmml" />
+    <Compile Include="Assets\data\autotiles.png" />
+    <Compile Include="Assets\data\autotiles_alt.png" />
+    <Compile Include="Assets\data\beep.mp3" />
+    <Compile Include="Assets\data\beep.wav" />
+    <Compile Include="Assets\data\button.png" />
+    <Compile Include="Assets\data\courier.ttf" />
+    <Compile Include="Assets\data\cursor.png" />
+    <Compile Include="Assets\data\default.png" />
+    <Compile Include="Assets\data\fontData10pt.png" />
+    <Compile Include="Assets\data\fontData11pt.png" />
+    <Compile Include="Assets\data\handle.png" />
+    <Compile Include="Assets\data\logo.png" />
+    <Compile Include="Assets\data\logo_corners.png" />
+    <Compile Include="Assets\data\logo_light.png" />
+    <Compile Include="Assets\data\nokiafc22.ttf" />
+    <Compile Include="Assets\data\vcr\flixel.png" />
+    <Compile Include="Assets\data\vcr\open.png" />
+    <Compile Include="Assets\data\vcr\pause.png" />
+    <Compile Include="Assets\data\vcr\play.png" />
+    <Compile Include="Assets\data\vcr\record_off.png" />
+    <Compile Include="Assets\data\vcr\record_on.png" />
+    <Compile Include="Assets\data\vcr\restart.png" />
+    <Compile Include="Assets\data\vcr\step.png" />
+    <Compile Include="Assets\data\vcr\stop.png" />
+    <Compile Include="Assets\data\vis\bounds.png" />
+    <Compile Include="Source\Main.hx" />
+    <Compile Include="Source\FrogGame.hx" />
+    <Compile Include="Source\PlayState.hx" />
+    <Compile Include="project.hxproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\data\" />
+  </ItemGroup>
+</Project>

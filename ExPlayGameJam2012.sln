@@ -1,0 +1,68 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{319CB2C6-23BD-43E1-85B5-2AAFA3577041}") = "ExPlayGameJam2012", "ExPlayGameJam2012\ExPlayGameJam2012.nmeproj", "{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Android = Debug|Android
+		Debug|BlackBerry = Debug|BlackBerry
+		Debug|Flash = Debug|Flash
+		Debug|HTML5 = Debug|HTML5
+		Debug|iOS = Debug|iOS
+		Debug|Linux = Debug|Linux
+		Debug|Mac = Debug|Mac
+		Debug|webOS = Debug|webOS
+		Debug|Windows = Debug|Windows
+		Release|Android = Release|Android
+		Release|BlackBerry = Release|BlackBerry
+		Release|Flash = Release|Flash
+		Release|HTML5 = Release|HTML5
+		Release|iOS = Release|iOS
+		Release|Linux = Release|Linux
+		Release|Mac = Release|Mac
+		Release|webOS = Release|webOS
+		Release|Windows = Release|Windows
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Debug|Android.ActiveCfg = Debug|Android
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Debug|Android.Build.0 = Debug|Android
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Debug|BlackBerry.ActiveCfg = Debug|BlackBerry
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Debug|BlackBerry.Build.0 = Debug|BlackBerry
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Debug|Flash.ActiveCfg = Debug|Flash
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Debug|Flash.Build.0 = Debug|Flash
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Debug|HTML5.ActiveCfg = Debug|HTML5
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Debug|HTML5.Build.0 = Debug|HTML5
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Debug|iOS.ActiveCfg = Debug|iOS
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Debug|iOS.Build.0 = Debug|iOS
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Debug|Linux.ActiveCfg = Debug|Linux
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Debug|Linux.Build.0 = Debug|Linux
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Debug|Mac.ActiveCfg = Debug|Mac
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Debug|Mac.Build.0 = Debug|Mac
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Debug|webOS.ActiveCfg = Debug|webOS
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Debug|webOS.Build.0 = Debug|webOS
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Debug|Windows.ActiveCfg = Debug|Windows
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Debug|Windows.Build.0 = Debug|Windows
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Release|Android.ActiveCfg = Release|Android
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Release|Android.Build.0 = Release|Android
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Release|BlackBerry.ActiveCfg = Release|BlackBerry
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Release|BlackBerry.Build.0 = Release|BlackBerry
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Release|Flash.ActiveCfg = Release|Flash
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Release|Flash.Build.0 = Release|Flash
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Release|HTML5.ActiveCfg = Release|HTML5
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Release|HTML5.Build.0 = Release|HTML5
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Release|iOS.ActiveCfg = Release|iOS
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Release|iOS.Build.0 = Release|iOS
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Release|Linux.ActiveCfg = Release|Linux
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Release|Linux.Build.0 = Release|Linux
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Release|Mac.ActiveCfg = Release|Mac
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Release|Mac.Build.0 = Release|Mac
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Release|webOS.ActiveCfg = Release|webOS
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Release|webOS.Build.0 = Release|webOS
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Release|Windows.ActiveCfg = Release|Windows
+		{E7080DAB-7244-48A1-9B0B-A0F8A6380A34}.Release|Windows.Build.0 = Release|Windows
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = ExPlayGameJam2012\ExPlayGameJam2012.nmeproj
+	EndGlobalSection
+EndGlobal
