@@ -15,10 +15,14 @@ import entities.Hand;
 import entities.Frog.FrogColor;
 import org.flixel.FlxU;
 import org.flixel.FlxTimer;
+import org.flixel.plugin.TimerManager;
 import flash.display.BlendMode;
+
 
 class PlayState extends FlxState		//The class declaration for the main game state
 {
+	
+	public var effectsManager : EffectsManager;
 	public var player1 : PlayableFrog;
 	public var player2 : PlayableFrog;
 
@@ -31,13 +35,16 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 	public var allFrogs : FlxGroup;
 	public var selectFrogsArray : Array<Dynamic>;
 
-	var timer:FlxTimer;
+	var timerManager:TimerManager;
+	var playStateTimer:FlxTimer;
 	
 	public var scores : ScoreSystem;
 	var player1TotalScore:FlxText;
 	var player2TotalScore:FlxText;
 	var player1Score:Int;
 	var player2Score:Int;
+
+		var timer:FlxTimer;
 
 	var pausedPlayer : Int;
 	var hand : Hand;
@@ -50,11 +57,18 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		FlxG.camera.bgColor = { rgb: 0x000000, a: 0xff };
 		#end
 		
-		Global.paused = false;
-
+		// Initialise effect manager (will begin randomly generating weather)
+	   	// Initialise effects manager
+		effectsManager = new EffectsManager(true);
+		
 		// Initialise timer per game
 		timer = new FlxTimer();
 		timer.start(60);
+
+		Global.paused = false;
+
+
+
 		
 		// Initialise the score system, all totals set to 0
 		scores = new ScoreSystem();
@@ -136,6 +150,7 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		var rightBorder : FlxObject =  new FlxObject(FlxG.width, 0, 20, FlxG.height);
 		rightBorder.immovable = true;
 		scenery.add(rightBorder);
+		this.CreatePlatforms();
 		add(scenery);
 		
 		// Create text for player 1 score
@@ -164,7 +179,7 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 			var critter:Critter;
 			critter = new entities.Critter(Std.int(Math.random () * FlxG.width), Std.int(Math.random () * FlxG.height), l);
 			// adding gravity to crittes, so they eventually be reached
-            //critter.acceleration.y = 50;
+            critter.acceleration.y = 50;
 			critters.add(critter);
 			}
 			
@@ -178,7 +193,39 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 
 		//	FlxG.log (" DEBUG:  " + e_debug);
 
+		
+		
+		// set up timer
+		
+	//var rainEffectTimer:FlxTimer = new FlxTimer();
+		//		rainEffectTimer.start(1, rainDuration, onTimer);
+			
+		/*
+		var numSeconds:Int;
+		FlxG.log (" Starting Timer");
+			playStateTimer = new FlxTimer();
+			timerManager = new TimerManager();
+			FlxG.log (" addint to timer manaager");
+			timerManager.add(playStateTimer);
+			FlxG.log (" start manaager");
+			playStateTimer.start(1, );
+		
+	//	numSeconds = timerManager.getProgress();
+		FlxG.log (" DEBUG:  " +playStateTimer.time);
+		*/
+
 	}
+
+	private function CreatePlatforms()
+	{
+		var	platform = new FlxSprite(300, FlxG.height - 200);
+		platform.loadGraphic("assets/TreePlatform5.png");
+		platform.immovable = true;
+		platform.visible = true;
+		platform.allowCollisions = FlxObject.UP;
+		scenery.add(platform);
+	}
+
 	
 	//This is the main game loop function, where all the logic is done.
 	override public function update():Void
@@ -186,6 +233,9 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		//This just says if the user clicked on the game to hide the cursor
 		if(FlxG.mouse.justPressed())
 			FlxG.mouse.hide();
+			
+			effectsManager.update();
+			timerManager.update();
 		
 		if ((FlxG.keys.TAB || FlxG.keys.ENTER) && !Global.paused)
 		{
@@ -247,7 +297,10 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 
 		FlxG.collide(players, scenery);
 		FlxG.collide(aiFrogs, scenery);
-			
+
+		// make critters sit in the scenery
+		FlxG.collide(critters, scenery);
+
 		//check if any player is touching a critter
 		FlxG.overlap(critters, players, collectCritter);
 
@@ -258,7 +311,8 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 	public function collectCritter (critter:FlxObject, player:FlxObject): Void {
 		//effectsManager.showCritterCollectEffect(critter);
 		critter.kill();
-	    scores.collectBug (cast(player, PlayableFrog).playerNumber, false);
+		scores.collectBug (cast(player, PlayableFrog).playerNumber, effectsManager.checkIfShowingLightningFlash());
+	    //scores.collectBug (cast(player, PlayableFrog).playerNumber, false);
 	}
 	
 	public function guessOtherPlayer() : Void {

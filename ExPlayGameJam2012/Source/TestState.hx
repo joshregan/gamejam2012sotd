@@ -17,7 +17,7 @@ class TestState extends FlxState
 		FlxG.camera.bgColor = { rgb: 0x000000, a: 0xff };
 		#end
 		
-		effectsManager = new EffectsManager();
+		effectsManager = new EffectsManager(true);
 	}
 	
 	override public function update():Void
