@@ -10,6 +10,7 @@ import org.flixel.FlxTimer;
 import entities.AIFrog;
 import entities.PlayableFrog;
 import org.flixel.FlxTimer;
+import flash.display.BlendMode;
 
 class PlayState extends FlxState		//The class declaration for the main game state
 {
@@ -105,8 +106,6 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		add(player2TotalScore);
 		
 		// temporarily add the timer
-		
-		
 	}
 	
 	//This is the main game loop function, where all the logic is done.
