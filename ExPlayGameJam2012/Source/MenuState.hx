@@ -62,6 +62,10 @@ class MenuState extends FlxState
 		{
 			FlxG.switchState(new PlayState());
 		}
+		else if (FlxG.keys.ONE)
+		{
+			FlxG.switchState(new TestState());
+		}
 		
 		super.update();
 	}
