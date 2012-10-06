@@ -126,7 +126,7 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 			var critter:Critter;
 			critter = new entities.Critter(Std.int(Math.random () * FlxG.width), Std.int(Math.random () * FlxG.height), l);
 			// adding gravity to crittes, so they eventually be reached
-            //critter.acceleration.y = 50;
+            critter.acceleration.y = 50;
 			critters.add(critter);
 			}
 			
@@ -155,6 +155,8 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 
 		FlxG.collide(players, scenery);
 		FlxG.collide(aiFrogs, scenery);
+		// make critters sit in the scenery
+		FlxG.collide(critters, scenery);
 		
 		//check if any player is touching a critter
 		FlxG.overlap(critters, players, collectCritter);
