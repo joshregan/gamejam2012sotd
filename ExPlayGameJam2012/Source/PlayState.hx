@@ -119,7 +119,7 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		// Loop to add Critters, using the 4 different images
 	    for (k in 0...5)
 		{
-			for (l in 1...4) {
+			for (l in 1...5) {
 			var critter:Critter;
 			critter = new entities.Critter(Std.int(Math.random () * FlxG.width),Std.int(Math.random () * FlxG.width), l);
 

@@ -40,12 +40,12 @@ class EffectsManager {
 	public function showLightningEffect():Void
 	{
 		isShowingLightningFlash = true;
-		FlxG.flash(0xffffff, 0.2, showSecondaryLightningFlash, false); 
+		FlxG.flash(0xffffff, 0.4, showSecondaryLightningFlash, false); 
 	}
 	
 	private function showSecondaryLightningFlash():Void
 	{
-		FlxG.flash(0xffffff, 0.3, null, false); 
+		FlxG.flash(0xffffff, 0.5, stopShowingLightningFlash, false); 
 	}
 	
 	private function stopShowingLightningFlash():Void
