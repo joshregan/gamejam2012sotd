@@ -16,6 +16,8 @@ import flash.display.BlendMode;
 
 class PlayState extends FlxState		//The class declaration for the main game state
 {
+	
+	public var effectsManager : EffectsManager;
 	public var player1 : PlayableFrog;
 	public var player2 : PlayableFrog;
 
@@ -41,6 +43,9 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		FlxG.camera.bgColor = { rgb: 0x000000, a: 0xff };
 		#end
 		
+	// Initialise effect manager (will begin randomly generating weather)
+   effectsManager = new EffectsManager();
+
 		// Initialise timer per game
 		timer = new FlxTimer();
 		timer.start(60);
@@ -139,6 +144,8 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		//This just says if the user clicked on the game to hide the cursor
 		if(FlxG.mouse.justPressed())
 			FlxG.mouse.hide();
+			
+			effectsManager.update();
 		
 		//THIS IS SUPER IMPORTANT and also easy to forget.  But all those objects that we added
 		// to the state earlier (i.e. all of everything) will not get automatically updated
@@ -159,7 +166,8 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 	public function collectCritter (critter:FlxObject, player:FlxObject): Void {
 		effectsManager.showCritterCollectEffect(critter);
 		critter.kill();
-	    scores.collectBug (cast(player, PlayableFrog).playerNumber, false);
+		scores.collectBug (cast(player, PlayableFrog).playerNumber, effectsManager.checkIfShowingLightningFlash());
+	    //scores.collectBug (cast(player, PlayableFrog).playerNumber, false);
 	}
 	
 	public function guessOtherPlayer(player : Int) : Void {
