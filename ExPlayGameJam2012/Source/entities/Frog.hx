@@ -22,7 +22,7 @@ class Frog extends FlxSprite
 		addAnimation("jump", [13,14,15,16], 16, false);
 		addAnimation("walk", [13,14,15,16,17,18,19], 16, true);
 
-		play("walk");
+		play("idle");
 	}
 
 	public function jump()
@@ -60,22 +60,22 @@ class Frog extends FlxSprite
 
 	override public function update()
 	{
-		this.acceleration.x = 0;
-		if (FlxG.keys.LEFT && this.isTouching(FlxObject.FLOOR))
-		{
-			this.walkLeft();
-		}
-		else if (FlxG.keys.RIGHT && this.isTouching(FlxObject.FLOOR))
-		{
-			this.walkRight();
-		}
-		else if (FlxG.keys.UP && this.isTouching(FlxObject.FLOOR))
-		{
-			this.jump();
-		}
-		else if (this.isTouching(FlxObject.FLOOR))
-		{
-			idle();
-		}
+		// this.acceleration.x = 0;
+		// if (FlxG.keys.LEFT && this.isTouching(FlxObject.FLOOR))
+		// {
+		// 	this.walkLeft();
+		// }
+		// else if (FlxG.keys.RIGHT && this.isTouching(FlxObject.FLOOR))
+		// {
+		// 	this.walkRight();
+		// }
+		// else if (FlxG.keys.UP && this.isTouching(FlxObject.FLOOR))
+		// {
+		// 	this.jump();
+		// }
+		// else if (this.isTouching(FlxObject.FLOOR))
+		// {
+		// 	idle();
+		// }
 	}
 }

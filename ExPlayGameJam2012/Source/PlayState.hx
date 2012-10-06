@@ -5,15 +5,18 @@ import org.flixel.FlxText;
 import org.flixel.FlxG;
 import org.flixel.FlxSprite;
 import org.flixel.FlxObject;
-import entities.Frog;
-
+import org.flixel.FlxGroup;
+import entities.AIFrog;
+import entities.PlayableFrog;
 
 class PlayState extends FlxState		//The class declaration for the main game state
 {
-	public var player : Frog;
+	public var player : PlayableFrog;
 	public var land : FlxSprite;
-	var t:FlxText;
-	
+	public var background : FlxSprite;
+	public var aiFrogs : FlxGroup;
+	public var scenery : FlxGroup;
+
 	public var scores : ScoreSystem;
 	var player1TotalScore:FlxText;
 	var player2TotalScore:FlxText;
@@ -30,22 +33,45 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		// Initialise the score system, all totals set to 0
 		scores = new ScoreSystem();
 		
-		t = new FlxText(0, Std.int(FlxG.height/2), FlxG.width, "Testing");
-		t.alignment = "center";
-		add(t);
+		aiFrogs = new FlxGroup();
+
+		scenery = new FlxGroup();
+
+		background = new FlxSprite(0,0,"assets/Background1.png");
+		add(background);
 
 		// Temporary frog
-		player = new Frog(100, 100);
+		player = new PlayableFrog(100, 100);
 		add(player);
 
+		for (i in 0...16)
+		{
+			var f : AIFrog = new AIFrog(Std.int(Math.random () * FlxG.width), 300);
+			aiFrogs.add(f);
+			var j : Int = Std.int(Math.random() * 50);
+			if (j < 25)
+				f.facing = FlxObject.LEFT;
+			else
+				f.facing = FlxObject.RIGHT;
+		}
+		add(aiFrogs);
+
 		// Temporary landscape
-		land = new FlxSprite(0, FlxG.height - 100);
+		land = new FlxSprite(0, FlxG.height - 6);
 		land.width = FlxG.width;
 		land.height = 100;
-		land.makeGraphic(FlxG.width, 100, 0xff00ff00);
+		land.makeGraphic(FlxG.width, 100, 0x0000ff00);
 		land.immovable = true;
-		add(land);
-		
+		scenery.add(land);
+
+		var leftBorder : FlxObject =  new FlxObject(-20, 0, 20, FlxG.height);
+		leftBorder.immovable = true;
+		scenery.add(leftBorder);
+
+		var rightBorder : FlxObject =  new FlxObject(FlxG.width, 0, 20, FlxG.height);
+		rightBorder.immovable = true;
+		scenery.add(rightBorder);
+		add(scenery);
 		
 		// Create text for player 1 score
 		player1Score = scores.getCurrentScore (1);
@@ -74,7 +100,8 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		// right now on all of the objects that were added."
 		super.update();
 
-		FlxG.collide(player, land);
+		FlxG.collide(player, scenery);
+		FlxG.collide(aiFrogs, scenery);
 
 	}
 }
