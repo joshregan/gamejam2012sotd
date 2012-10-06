@@ -24,7 +24,9 @@ class EffectsManager {
 	
 	var isShowingLightningFlash:Bool;
 	
-	public function new () 
+	public var allowLightning:Bool;
+	
+	public function new (lightning:Bool) 
 	{
 		// Setup timer manager
 		effectsTimerManager = new TimerManager();
@@ -36,6 +38,8 @@ class EffectsManager {
 		weatherPhaseTimer = Std.random(900) % 1 + 800;
 		
 		isShowingLightningFlash = false;
+		
+		allowLightning = lightning;
 	}		
 
 	public function showLightningEffect():Void
@@ -119,25 +123,28 @@ class EffectsManager {
 
 	public function update():Void
 	{
-		if (counter < weatherPhaseTimer)
+		if (allowLightning)
 		{
-			counter++;
-		}
-		else
-		{
-			counter = 0;
-			weatherPhaseTimer = Std.random(900) % 1 + 800;
-			
-/*			var weatherType:Int = Std.random(2);
-			if (weatherType == 0)
+			if (counter < weatherPhaseTimer)
 			{
-				this.showRainEffect(12);
-				FlxG.log(weatherPhaseTimer);
+				counter++;
 			}
 			else
-			{*/
-				this.showLightningEffect();
-/*			}*/
+			{
+				counter = 0;
+				weatherPhaseTimer = Std.random(900) % 1 + 800;
+				
+	/*			var weatherType:Int = Std.random(2);
+				if (weatherType == 0)
+				{
+					this.showRainEffect(12);
+					FlxG.log(weatherPhaseTimer);
+				}
+				else
+				{*/
+					this.showLightningEffect();
+	/*			}*/
+			}
 		}
 	
 		if (isCreatingTimers)

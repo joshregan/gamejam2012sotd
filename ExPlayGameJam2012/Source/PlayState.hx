@@ -33,6 +33,8 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 	var player2TotalScore:FlxText;
 	var player1Score:Int;
 	var player2Score:Int;
+	
+	var effectsManager:EffectsManager;
 
 	//This is where we create the main game state!
 	override public function create():Void
@@ -40,6 +42,9 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		#if neko
 		FlxG.camera.bgColor = { rgb: 0x000000, a: 0xff };
 		#end
+		
+		// Initialise effects manager
+		effectsManager = new EffectsManager(true);
 		
 		// Initialise timer per game
 		timer = new FlxTimer();
@@ -93,6 +98,8 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		var rightBorder : FlxObject =  new FlxObject(FlxG.width, 0, 20, FlxG.height);
 		rightBorder.immovable = true;
 		scenery.add(rightBorder);
+		
+		this.CreatePlatforms();
 		add(scenery);
 		
 		// Create text for player 1 score
@@ -131,6 +138,16 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 
 		//	FlxG.log (" DEBUG:  " + e_debug);
 
+	}
+	
+	private function CreatePlatforms()
+	{
+		var	platform = new FlxSprite(300, FlxG.height - 200);
+		platform.loadGraphic("assets/TreePlatform5.png");
+		platform.immovable = true;
+		platform.visible = true;
+		platform.allowCollisions = FlxObject.UP;
+		scenery.add(platform);
 	}
 	
 	//This is the main game loop function, where all the logic is done.
