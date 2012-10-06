@@ -9,8 +9,10 @@ import org.flixel.FlxGroup;
 import org.flixel.FlxTimer;
 import entities.AIFrog;
 import entities.PlayableFrog;
+import entities.Frog;
 import entities.Critter;
-
+import entities.Frog.FrogColor;
+import org.flixel.FlxU;
 import org.flixel.FlxTimer;
 import flash.display.BlendMode;
 
@@ -41,6 +43,8 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		FlxG.camera.bgColor = { rgb: 0x000000, a: 0xff };
 		#end
 		
+		Global.paused = false;
+
 		// Initialise timer per game
 		timer = new FlxTimer();
 		timer.start(60);
@@ -55,26 +59,46 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		players = new FlxGroup();
 		critters = new FlxGroup();
 
-		background = new FlxSprite(0,0,"assets/Background1.png");
+		background = new FlxSprite(0,0,"assets/scenery/BG.png");
 		add(background);
 
 		// Temporary frog
-		player1 = new PlayableFrog(100, FlxG.height - 100, 1);
-		player2 = new PlayableFrog(700, FlxG.height - 100, 2);
+		player1 = new PlayableFrog(100, FlxG.height - 100, FrogColor.Green, 1);
+		player2 = new PlayableFrog(700, FlxG.height - 100, FrogColor.Green, 2);
 		
 		players.add(player1);
 		players.add(player2);
 		add(players);
 
-		for (i in 0...16)
+		for (i in 0...4)
 		{
-			var f : AIFrog = new AIFrog(Std.int(Math.random () * FlxG.width), 300);
-			aiFrogs.add(f);
-			var j : Int = Std.int(Math.random() * 50);
-			if (j < 25)
-				f.facing = FlxObject.LEFT;
-			else
-				f.facing = FlxObject.RIGHT;
+			var color : FrogColor = FrogColor.Green;
+
+			switch (Std.random(6)) {
+				case 0:
+					color = FrogColor.Brown;
+				case 1:
+					color = FrogColor.Green;
+				case 2:
+					color = FrogColor.Grey;
+				case 3:
+					color = FrogColor.Plum;
+				case 4:
+					color = FrogColor.Purple;
+				case 5:
+					color = FrogColor.Turquoise;
+			}
+			for (k in 0...4)
+			{
+				var f : AIFrog = new AIFrog(Std.int(Math.random () * FlxG.width), 300, color);
+				aiFrogs.add(f);
+				var j : Int = Std.int(Math.random() * 50);
+
+				if (j < 25)
+					f.facing = FlxObject.LEFT;
+				else
+					f.facing = FlxObject.RIGHT;
+				}
 		}
 		add(aiFrogs);
 
@@ -132,6 +156,28 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		if(FlxG.mouse.justPressed())
 			FlxG.mouse.hide();
 		
+		if (FlxG.keys.TAB || FlxG.keys.ENTER)
+		{
+			Global.paused = true;
+
+			for (i in 0...aiFrogs.countLiving())
+			{
+				var f : Frog = cast(aiFrogs.members[i], Frog);
+				f.pause();
+			}
+			player1.pause();
+			player2.pause();
+
+			if (FlxG.keys.TAB)
+			{
+
+			} else if (FlxG.keys.ENTER)
+			{
+				// PLAYER 2
+
+			}
+		}
+
 		//THIS IS SUPER IMPORTANT and also easy to forget.  But all those objects that we added
 		// to the state earlier (i.e. all of everything) will not get automatically updated
 		// if you forget to call this function.  This is basically saying "state, call update
@@ -140,7 +186,7 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 
 		FlxG.collide(players, scenery);
 		FlxG.collide(aiFrogs, scenery);
-		
+			
 		//check if any player is touching a critter
 		FlxG.overlap(critters, players, collectCritter);
 

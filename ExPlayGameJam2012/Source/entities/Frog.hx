@@ -6,19 +6,44 @@ import org.flixel.FlxObject;
 import org.flixel.FlxTimer;
 import Assets;
 
+ enum FrogColor {
+        Brown;
+        Green;
+        Grey;
+        Plum;
+        Purple;
+        Turquoise;
+    }
+
 class Frog extends FlxSprite
 {
-	public function new(X : Int, Y : Int)
+   	public function new(X : Int, Y : Int, color : FrogColor)
 	{
 		super(X, Y);
 
 		//this.makeGraphic(20, 20, 0xffff0000);
-		this.maxVelocity.x = 200;
-		this.maxVelocity.y = 200;
-		this.acceleration.y = 200;
-		this.drag.x = this.maxVelocity.x;
+		this.unpause();
+		
+		var frogImage : String = "";
 
-		loadGraphic("assets/adjustedfrog.png", true, true, 48, 48, true);
+		switch (color) {
+			case Brown:
+				frogImage = "assets/frogs/BrownFrog.png";
+			case Green:
+				frogImage = "assets/frogs/GreenFrog.png";
+			case Grey:
+				frogImage = "assets/frogs/GreyFrog.png";
+			case Plum:
+				frogImage = "assets/frogs/PlumFrog.png";
+			case Purple:
+				frogImage = "assets/frogs/PurpleFrog.png";
+			case Turquoise:
+				frogImage = "assets/frogs/TurquoiseFrog.png";
+			default:
+
+		}
+
+		loadGraphic(frogImage, true, true, 48, 48, true);
 		addAnimation("idle", [0,1,2,3,4,5,6,7], 8, true);
 		addAnimation("jump", [13,14,15,16], 16, false);
 		addAnimation("walk", [13,14,15,16,17,18,19], 16, true);
@@ -28,6 +53,23 @@ class Frog extends FlxSprite
 		timer.start(animationDelay, 0, function(timer : FlxTimer) {
 			play("idle");
 		});
+	}
+
+	public function pause()
+	{
+		this.frame = 0;
+		this.velocity.x = 0;
+		this.velocity.y = 0;
+		this.acceleration.y = 0;
+		this.acceleration.x = 0;
+	}
+
+	public function unpause()
+	{
+		this.maxVelocity.x = 200;
+		this.maxVelocity.y = 200;
+		this.acceleration.y = 200;
+		this.drag.x = this.maxVelocity.x;
 	}
 
 	public function jump()
