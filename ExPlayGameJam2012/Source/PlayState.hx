@@ -9,6 +9,7 @@ import org.flixel.FlxGroup;
 import org.flixel.FlxTimer;
 import entities.AIFrog;
 import entities.PlayableFrog;
+import org.flixel.FlxTimer;
 
 class PlayState extends FlxState		//The class declaration for the main game state
 {
@@ -21,6 +22,8 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 	public var scenery : FlxGroup;
 	public var players : FlxGroup;
 
+	var timer:FlxTimer;
+	
 	public var scores : ScoreSystem;
 	var player1TotalScore:FlxText;
 	var player2TotalScore:FlxText;
@@ -33,6 +36,10 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		#if neko
 		FlxG.camera.bgColor = { rgb: 0x000000, a: 0xff };
 		#end
+		
+		// Initialise timer per game
+		timer = new FlxTimer();
+		timer.start(60);
 		
 		// Initialise the score system, all totals set to 0
 		scores = new ScoreSystem();
@@ -96,6 +103,9 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		player2TotalScore.alignment = "right";
 		player2TotalScore.size = 20;
 		add(player2TotalScore);
+		
+		// temporarily add the timer
+		
 		
 	}
 	

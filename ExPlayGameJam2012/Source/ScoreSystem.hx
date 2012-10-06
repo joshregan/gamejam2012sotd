@@ -1,4 +1,5 @@
 package ;
+import org.flixel.FlxTimer;
 import org.flixel.system.input.MapObject;
 import org.flixel.FlxGame;
 
@@ -18,8 +19,13 @@ class ScoreSystem
 	public var p2Total:Int;
 	
 	// Numbering system for gaining points
+	public var winningScore:Int;
 	public var bugNormal:Int;
 	public var bugLightning:Int;
+	
+	// Winning score = 200
+	// score when you reveal other player dependent on time
+	// = time in seconds, max 60;
 	
 	public function new() 
 	{
@@ -32,22 +38,40 @@ class ScoreSystem
 		p2Total = 0;
 		bugNormal = 20;
 		bugLightning = 10;
+		winningScore = 200;
 		
 		
 	}
 	
 	// function to increase score when collect bug
-	
-	public function collectBug(player:Int):Void {
+	// If there is lightning, then the score is lower, as bug is easier to see
+	public function collectBug(player:Int, lightning:Bool):Void {
 		switch (player) {
 			case 1:
-			p1Current = p1Current + bugNormal;
+				if (lightning) {
+			      p1Current = p1Current + bugLightning;
+				}
+				else {
+					p1Current = p1Current + bugNormal;
+				}
+				
 		case 2:
-			p2Current = p2Current + bugNormal;
-		
+			if (lightning) {
+			p2Current = p2Current + bugLightning;
+			}
+		    else {
+			p2Current = p2Current + bugNormal;	
+			}
 			
 		}
 	
+	}
+	
+	// function to get points for guessing the other player
+	// triggered by pressing special key and then selecting the frog
+	// this is equal to elapsed number of seconds, max 60
+	public function guessWinner (player:Int, timer:FlxTimer): Void {
+		
 	}
 	
 	// function to get the current score
@@ -92,8 +116,21 @@ class ScoreSystem
 		return 0;
 	}
 	
+	// function to trigger win state
+	// if either P1 or P2 reach the winning score, trigger win state
+	public function triggerWinState (void):Bool {
+		if (p1Total >= winningScore ) {
+		return true;
+		}
+		else if (p2Total >= winningScore) {
+			return true;
+		} else {
+		return false;
+		}
+	}
 	
-		// function to work out winner for the game
+	
+	// function to work out winner for the game
 	public function getTotalWinner (void ):Int {
 		if (p1Total > p2Total ){
 			return 1;
