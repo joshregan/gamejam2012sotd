@@ -18,6 +18,11 @@ class EffectsManager {
 	var timerCreationThreshold:Int;
 	var rainDuration:Int;
 	
+	var counter:Int;
+	var weatherPhaseTimer:Int;
+	
+	var isShowingLightningFlash:Bool;
+	
 	public function new () 
 	{
 		// Setup timer manager
@@ -25,16 +30,32 @@ class EffectsManager {
 		isCreatingTimers = false;
 		timerCreationCounter = 0;
 		timerCreationThreshold = 30;
+		
+		counter = 0;
+		weatherPhaseTimer = Std.random(900) % 1 + 800;
+		
+		isShowingLightningFlash = false;
 	}		
 
 	public function showLightningEffect():Void
 	{
+		isShowingLightningFlash = true;
 		FlxG.flash(0xffffff, 0.2, showSecondaryLightningFlash, false); 
 	}
 	
 	private function showSecondaryLightningFlash():Void
 	{
 		FlxG.flash(0xffffff, 0.3, null, false); 
+	}
+	
+	private function stopShowingLightningFlash():Void
+	{
+		isShowingLightningFlash = false;
+	}
+	
+	public function checkIfShowingLightningFlash():Bool
+	{
+		return isShowingLightningFlash;
 	}
 	
 	public function showRainEffect(duration:Int):Void
@@ -57,13 +78,13 @@ class EffectsManager {
 		for (i in 0...rainEmitter.maxSize) 
 		{
 		    rainDropPixel = new FlxParticle();
-		    rainDropPixel.makeGraphic(1, 1, 0xff0000ff);
+		    rainDropPixel.makeGraphic(2, 2, 0xff0000ff);
 		    rainDropPixel.visible = false;
 		    rainEmitter.add(rainDropPixel);
 		}
 
 		FlxG.state.add(rainEmitter);
-		rainEmitter.start(true, 3);
+		rainEmitter.start(true, 5);
 	}
 	
 	private function onTimer(Timer:FlxTimer):Void
@@ -73,6 +94,27 @@ class EffectsManager {
 
 	public function update():Void
 	{
+		if (counter < weatherPhaseTimer)
+		{
+			counter++;
+		}
+		else
+		{
+			counter = 0;
+			weatherPhaseTimer = Std.random(900) % 1 + 800;
+			
+/*			var weatherType:Int = Std.random(2);
+			if (weatherType == 0)
+			{
+				this.showRainEffect(12);
+				FlxG.log(weatherPhaseTimer);
+			}
+			else
+			{*/
+				this.showLightningEffect();
+/*			}*/
+		}
+	
 		if (isCreatingTimers)
 		{
 			if (timerCreationCounter < timerCreationThreshold)

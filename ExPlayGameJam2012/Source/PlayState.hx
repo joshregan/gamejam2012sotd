@@ -13,6 +13,8 @@ import org.flixel.FlxTimer;
 
 class PlayState extends FlxState		//The class declaration for the main game state
 {
+	public var effectsManager : EffectsManager;
+
 	public var player1 : PlayableFrog;
 	public var player2 : PlayableFrog;
 
@@ -36,6 +38,9 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		#if neko
 		FlxG.camera.bgColor = { rgb: 0x000000, a: 0xff };
 		#end
+		
+		// Initialise effect manager (will begin randomly generating weather)
+		effectsManager = new EffectsManager();
 		
 		// Initialise timer per game
 		timer = new FlxTimer();
@@ -116,6 +121,7 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		if(FlxG.mouse.justPressed())
 			FlxG.mouse.hide();
 		
+		effectsManager.update();
 		//THIS IS SUPER IMPORTANT and also easy to forget.  But all those objects that we added
 		// to the state earlier (i.e. all of everything) will not get automatically updated
 		// if you forget to call this function.  This is basically saying "state, call update

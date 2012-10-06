@@ -117,6 +117,7 @@
     <Compile Include="Source\entities\Critter.hx" />
     <Compile Include="Source\entities\Frog.hx" />
     <Compile Include="Source\entities\PlayableFrog.hx" />
+    <Compile Include="Source\Global.hx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\data\" />
