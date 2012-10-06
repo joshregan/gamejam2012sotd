@@ -11,6 +11,7 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 {
 	public var player : Frog;
 	public var land : FlxSprite;
+	var t:FlxText;
 
 	//This is where we create the main game state!
 	override public function create():Void
@@ -19,7 +20,7 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		FlxG.camera.bgColor = { rgb: 0x000000, a: 0xff };
 		#end
 		
-		var t:FlxText = new FlxText(0, Std.int(FlxG.height/2), FlxG.width, "Testing");
+		t = new FlxText(0, Std.int(FlxG.height/2), FlxG.width, "Testing");
 		t.alignment = "center";
 		add(t);
 

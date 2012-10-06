@@ -105,6 +105,7 @@
     <Compile Include="Source\FrogGame.hx" />
     <Compile Include="Source\PlayState.hx" />
     <Compile Include="project.hxproj" />
+    <Compile Include="Source\MenuState.hx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\data\" />
