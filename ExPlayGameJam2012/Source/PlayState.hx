@@ -47,8 +47,8 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		add(background);
 
 		// Temporary frog
-		player1 = new PlayableFrog(100, 30, 1);
-		player2 = new PlayableFrog(700, 30, 2);
+		player1 = new PlayableFrog(100, FlxG.height - 100, 1);
+		player2 = new PlayableFrog(700, FlxG.height - 100, 2);
 		
 		players.add(player1);
 		players.add(player2);
