@@ -7,11 +7,18 @@ import org.flixel.FlxSprite;
 import org.flixel.FlxObject;
 import entities.Frog;
 
+
 class PlayState extends FlxState		//The class declaration for the main game state
 {
 	public var player : Frog;
 	public var land : FlxSprite;
 	var t:FlxText;
+	
+	public var scores : ScoreSystem;
+	var player1TotalScore:FlxText;
+	var player2TotalScore:FlxText;
+	var player1Score:Int;
+	var player2Score:Int;
 
 	//This is where we create the main game state!
 	override public function create():Void
@@ -19,6 +26,9 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		#if neko
 		FlxG.camera.bgColor = { rgb: 0x000000, a: 0xff };
 		#end
+		
+		// Initialise the score system, all totals set to 0
+		scores = new ScoreSystem();
 		
 		t = new FlxText(0, Std.int(FlxG.height/2), FlxG.width, "Testing");
 		t.alignment = "center";
@@ -35,6 +45,20 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		land.makeGraphic(FlxG.width, 100, 0xff00ff00);
 		land.immovable = true;
 		add(land);
+		
+		
+		// Create text for player 1 score
+		player1Score = scores.getCurrentScore (1);
+		player1TotalScore = new FlxText(0, FlxG.height - Std.int(FlxG.height / 3), FlxG.width, "Player 1: " + player1Score);
+		player1TotalScore.alignment = "left";
+		add(player1TotalScore);
+		
+		// Create text for player 2 score
+		player2Score = scores.getCurrentScore (2);
+		player2TotalScore = new FlxText(0, FlxG.height - Std.int(FlxG.height / 3), FlxG.width, "Player 2: " + player2Score);
+		player2TotalScore.alignment = "right";
+		add(player2TotalScore);
+		
 	}
 	
 	//This is the main game loop function, where all the logic is done.
