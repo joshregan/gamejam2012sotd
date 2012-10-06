@@ -30,6 +30,8 @@
 	
 	<assets path="Assets" rename="assets" if="target_flash" >
 		<sound path="data/beep.mp3" id="Beep" />
+		<sound path="data/thunder_strike_2.mp3" id="Rain" />
+		<sound path="data/thunder_strike_1.mp3" id="Thunder" />
 	</assets>
 	
 	<assets path="assets/data" include="*.ttf" type="font" />

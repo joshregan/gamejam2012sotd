@@ -108,6 +108,9 @@
     <Compile Include="Source\MenuState.hx" />
     <Compile Include="Source\EffectsManager.hx" />
     <Compile Include="Source\TestState.hx" />
+    <Compile Include="Assets\data\thunder_strike_1.mp3" />
+    <Compile Include="Assets\data\thunder_strike_2.mp3" />
+    <Compile Include="Assets\data\thunder_strike_3.mp3" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\data\" />
