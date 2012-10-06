@@ -11,10 +11,13 @@ import entities.AIFrog;
 import entities.PlayableFrog;
 import entities.Frog;
 import entities.Critter;
+import entities.Hand;
 import entities.Frog.FrogColor;
 import org.flixel.FlxU;
 import org.flixel.FlxTimer;
+import org.flixel.plugin.TimerManager;
 import flash.display.BlendMode;
+
 
 class PlayState extends FlxState		//The class declaration for the main game state
 {
@@ -29,14 +32,23 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 	public var scenery : FlxGroup;
 	public var players : FlxGroup;
 	public var critters : FlxGroup;
+	public var allFrogs : FlxGroup;
+	public var selectFrogsArray : Array<Dynamic>;
 
-	var timer:FlxTimer;
+	var timerManager:TimerManager;
+	var playStateTimer:FlxTimer;
 	
 	public var scores : ScoreSystem;
 	var player1TotalScore:FlxText;
 	var player2TotalScore:FlxText;
 	var player1Score:Int;
 	var player2Score:Int;
+
+		var timer:FlxTimer;
+
+	var pausedPlayer : Int;
+	var hand : Hand;
+	var frogHighlight : FlxSprite;
 
 	//This is where we create the main game state!
 	override public function create():Void
@@ -46,13 +58,17 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		#end
 		
 		// Initialise effect manager (will begin randomly generating weather)
-	   effectsManager = new EffectsManager(true);
-		Global.paused = false;
-
-
+	   	// Initialise effects manager
+		effectsManager = new EffectsManager(true);
+		
 		// Initialise timer per game
 		timer = new FlxTimer();
 		timer.start(60);
+
+		Global.paused = false;
+
+
+
 		
 		// Initialise the score system, all totals set to 0
 		scores = new ScoreSystem();
@@ -63,17 +79,14 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 
 		players = new FlxGroup();
 		critters = new FlxGroup();
+		allFrogs = new FlxGroup();
 
 		background = new FlxSprite(0,0,"assets/scenery/BG.png");
 		add(background);
 
 		// Temporary frog
-		player1 = new PlayableFrog(100, FlxG.height - 100, FrogColor.Green, 1);
-		player2 = new PlayableFrog(700, FlxG.height - 100, FrogColor.Green, 2);
-		
-		players.add(player1);
-		players.add(player2);
-		add(players);
+
+		var selectedColors : Array<FrogColor> = new Array<FrogColor>();
 
 		for (i in 0...4)
 		{
@@ -93,10 +106,14 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 				case 5:
 					color = FrogColor.Turquoise;
 			}
+
+			selectedColors.push(color);
+
 			for (k in 0...4)
 			{
 				var f : AIFrog = new AIFrog(Std.int(Math.random () * FlxG.width), 300, color);
 				aiFrogs.add(f);
+				allFrogs.add(f);
 				var j : Int = Std.int(Math.random() * 50);
 
 				if (j < 25)
@@ -105,7 +122,18 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 					f.facing = FlxObject.RIGHT;
 				}
 		}
+
 		add(aiFrogs);
+
+		player1 = new PlayableFrog(Std.int(Math.random() * FlxG.width), FlxG.height - 100, selectedColors[0], 1);
+		player2 = new PlayableFrog(Std.int(Math.random() * FlxG.width), FlxG.height - 100, selectedColors[1], 2);
+		
+		players.add(player1);
+		players.add(player2);
+
+		allFrogs.add(player1);
+		allFrogs.add(player2);
+		add(players);
 
 		// Temporary landscape
 		land = new FlxSprite(0, FlxG.height - 6);
@@ -122,9 +150,8 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		var rightBorder : FlxObject =  new FlxObject(FlxG.width, 0, 20, FlxG.height);
 		rightBorder.immovable = true;
 		scenery.add(rightBorder);
-		add(scenery);
-		
 		this.createPlatforms();
+		add(scenery);
 		
 		// Create text for player 1 score
 		player1Score = scores.getCurrentScore (1);
@@ -160,72 +187,35 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		}
 		add(critters);
 
+		hand = new Hand(0,0);
+		add(hand);
+		hand.visible = false;
+
 		//	FlxG.log (" DEBUG:  " + e_debug);
 
-	}
-	
-	//This is the main game loop function, where all the logic is done.
-	override public function update():Void
-	{	
-		//This just says if the user clicked on the game to hide the cursor
-		if(FlxG.mouse.justPressed())
-			FlxG.mouse.hide();
+		
+		
+		// set up timer
+		
+	//var rainEffectTimer:FlxTimer = new FlxTimer();
+		//		rainEffectTimer.start(1, rainDuration, onTimer);
 			
-			effectsManager.update();
+		/*
+		var numSeconds:Int;
+		FlxG.log (" Starting Timer");
+			playStateTimer = new FlxTimer();
+			timerManager = new TimerManager();
+			FlxG.log (" addint to timer manaager");
+			timerManager.add(playStateTimer);
+			FlxG.log (" start manaager");
+			playStateTimer.start(1, );
 		
-		if (FlxG.keys.TAB || FlxG.keys.ENTER)
-		{
-			Global.paused = true;
+	//	numSeconds = timerManager.getProgress();
+		FlxG.log (" DEBUG:  " +playStateTimer.time);
+		*/
 
-			for (i in 0...aiFrogs.countLiving())
-			{
-				var f : Frog = cast(aiFrogs.members[i], Frog);
-				f.pause();
-			}
-			player1.pause();
-			player2.pause();
-
-			if (FlxG.keys.TAB)
-			{
-
-			} else if (FlxG.keys.ENTER)
-			{
-				// PLAYER 2
-
-			}
-		}
-
-		//THIS IS SUPER IMPORTANT and also easy to forget.  But all those objects that we added
-		// to the state earlier (i.e. all of everything) will not get automatically updated
-		// if you forget to call this function.  This is basically saying "state, call update
-		// right now on all of the objects that were added."
-		super.update();
-
-		FlxG.collide(players, scenery);
-		FlxG.collide(aiFrogs, scenery);
-
-		// make critters sit in the scenery
-		FlxG.collide(critters, scenery);
-
-		//check if any player is touching a critter
-		FlxG.overlap(critters, players, collectCritter);
-
-		player1TotalScore.text = "Player 1: " + scores.p1Current;
-		player2TotalScore.text = "Player 2: " + scores.p2Current;
 	}
 
-	public function collectCritter (critter:FlxObject, player:FlxObject): Void {
-		effectsManager.showCritterCollectEffect(critter);
-		critter.kill();
-		scores.collectBug (cast(player, PlayableFrog).playerNumber, effectsManager.checkIfShowingLightningFlash());
-	    //scores.collectBug (cast(player, PlayableFrog).playerNumber, false);
-	}
-	
-	public function guessOtherPlayer(player : Int) : Void {
-		
-	}
-	
-	
 	private function createPlatforms()
 	{
 		var	platform = new FlxSprite(0, FlxG.height - 80);
@@ -263,5 +253,148 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		platform5.allowCollisions = FlxObject.UP;
 		scenery.add(platform5);
 	}
+	
+	//This is the main game loop function, where all the logic is done.
+	override public function update():Void
+	{	
+		//This just says if the user clicked on the game to hide the cursor
+		if(FlxG.mouse.justPressed())
+			FlxG.mouse.hide();
+			
+			effectsManager.update();
+			//timerManager.update();
+		
+		if ((FlxG.keys.TAB || FlxG.keys.ENTER) && !Global.paused)
+		{
+			Global.paused = true;
 
+			for (i in 0...aiFrogs.countLiving())
+			{
+				var f : Frog = cast(aiFrogs.members[i], Frog);
+				f.pause();
+			}
+			player1.pause();
+			player2.pause();
+
+			hand.visible = true;
+
+			selectFrogsArray = allFrogs.members;
+			selectFrogsArray.sort(function (x : FlxObject, y : FlxObject) : Int {
+					if (x.x < y.x)
+						return 1;
+					else if (x.x > y.x)
+						return -1;
+					else
+						return 0;
+				});
+
+			this.positionHand();
+
+			if (FlxG.keys.TAB)
+			{
+				pausedPlayer = 1;
+			} else if (FlxG.keys.ENTER)
+			{
+				// PLAYER 2
+				pausedPlayer = 2;
+			}
+		}
+
+		if (Global.paused)
+		{
+			if (FlxG.keys.justPressed("LEFT"))
+				this.positionHand(1);
+			else if (FlxG.keys.justPressed("RIGHT"))
+				this.positionHand(-1);
+			else if (FlxG.keys.justPressed("A"))
+				this.positionHand(1);
+			else if (FlxG.keys.justPressed("D"))			
+				this.positionHand(-1);
+			else if (FlxG.keys.justPressed("SPACE"))
+			{
+				guessOtherPlayer();
+			}
+		}
+
+		//THIS IS SUPER IMPORTANT and also easy to forget.  But all those objects that we added
+		// to the state earlier (i.e. all of everything) will not get automatically updated
+		// if you forget to call this function.  This is basically saying "state, call update
+		// right now on all of the objects that were added."
+		super.update();
+
+		FlxG.collide(players, scenery);
+		FlxG.collide(aiFrogs, scenery);
+
+		// make critters sit in the scenery
+		FlxG.collide(critters, scenery);
+
+		//check if any player is touching a critter
+		FlxG.overlap(critters, players, collectCritter);
+
+		player1TotalScore.text = "Player 1: " + scores.p1Current;
+		player2TotalScore.text = "Player 2: " + scores.p2Current;
+	}
+
+	public function collectCritter (critter:FlxObject, player:FlxObject): Void {
+		//effectsManager.showCritterCollectEffect(critter);
+		critter.kill();
+		scores.collectBug (cast(player, PlayableFrog).playerNumber, effectsManager.checkIfShowingLightningFlash());
+	    //scores.collectBug (cast(player, PlayableFrog).playerNumber, false);
+	}
+	
+	public function guessOtherPlayer() : Void {
+		
+		var o : Frog = cast(selectFrogsArray[hand.currentIndex], Frog);
+
+		if (pausedPlayer == 1)
+		{
+			if (o == player2)
+			{
+				// WIN!
+				//scores.guessWinner(1, true);
+				player2.end();
+			}
+			else
+			{
+				// LOSE
+				//scores.guessWinner(1, false);
+				player1.end();
+			}
+		}
+		else if (pausedPlayer == 2)
+		{
+			if (o == player1)
+			{
+				// WIN!
+				//scores.guessWinner(2, true);
+				player1.end();
+			}
+			else
+			{
+				// LOSE
+				//scores.guessWinner(2, false);
+				player2.end();
+			}
+		}
+	}
+
+	public function positionHand(offset : Int = 0)
+	{
+		var old : FlxSprite = cast(selectFrogsArray[hand.currentIndex], FlxSprite);
+		old.color = 0xffffffff;
+		hand.currentIndex += offset;
+
+		if (hand.currentIndex < 0)
+			hand.currentIndex = selectFrogsArray.length - 1;
+		else if (hand.currentIndex >= selectFrogsArray.length)
+			hand.currentIndex = 0;
+
+
+		var o : FlxSprite = cast(selectFrogsArray[hand.currentIndex], FlxSprite);
+
+		hand.x = o.x;
+		hand.y = o.y - 60;
+
+		o.color = 0xff00ff00;
+	}
 }

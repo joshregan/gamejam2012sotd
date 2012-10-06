@@ -23,7 +23,7 @@ class Frog extends FlxSprite
 
 		//this.makeGraphic(20, 20, 0xffff0000);
 		this.unpause();
-		
+
 		var frogImage : String = "";
 
 		switch (color) {
@@ -47,6 +47,7 @@ class Frog extends FlxSprite
 		addAnimation("idle", [0,1,2,3,4,5,6,7], 8, true);
 		addAnimation("jump", [13,14,15,16], 16, false);
 		addAnimation("walk", [13,14,15,16,17,18,19], 16, true);
+		addAnimation("death", [37, 38], 4, true);
 
 		var animationDelay : Float = Math.random() * 2;
 		var timer : FlxTimer = new FlxTimer();
@@ -103,6 +104,12 @@ class Frog extends FlxSprite
 	{
 		play("idle");
 		this.drag.x = this.maxVelocity.x;
+	}
+
+	public function end()
+	{
+		play("death");
+		this.velocity.y = -20;
 	}
 
 	override public function update()
