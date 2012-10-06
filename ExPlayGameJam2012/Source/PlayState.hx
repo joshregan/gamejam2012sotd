@@ -11,6 +11,7 @@ import entities.AIFrog;
 import entities.PlayableFrog;
 import entities.Frog;
 import entities.Critter;
+import entities.Hand;
 import entities.Frog.FrogColor;
 import org.flixel.FlxU;
 import org.flixel.FlxTimer;
@@ -27,6 +28,8 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 	public var scenery : FlxGroup;
 	public var players : FlxGroup;
 	public var critters : FlxGroup;
+	public var allFrogs : FlxGroup;
+	public var selectFrogsArray : Array<Dynamic>;
 
 	var timer:FlxTimer;
 	
@@ -35,6 +38,10 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 	var player2TotalScore:FlxText;
 	var player1Score:Int;
 	var player2Score:Int;
+
+	var pausedPlayer : Int;
+	var hand : Hand;
+	var frogHighlight : FlxSprite;
 
 	//This is where we create the main game state!
 	override public function create():Void
@@ -58,17 +65,14 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 
 		players = new FlxGroup();
 		critters = new FlxGroup();
+		allFrogs = new FlxGroup();
 
 		background = new FlxSprite(0,0,"assets/scenery/BG.png");
 		add(background);
 
 		// Temporary frog
-		player1 = new PlayableFrog(100, FlxG.height - 100, FrogColor.Green, 1);
-		player2 = new PlayableFrog(700, FlxG.height - 100, FrogColor.Green, 2);
-		
-		players.add(player1);
-		players.add(player2);
-		add(players);
+
+		var selectedColors : Array<FrogColor> = new Array<FrogColor>();
 
 		for (i in 0...4)
 		{
@@ -88,10 +92,14 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 				case 5:
 					color = FrogColor.Turquoise;
 			}
+
+			selectedColors.push(color);
+
 			for (k in 0...4)
 			{
 				var f : AIFrog = new AIFrog(Std.int(Math.random () * FlxG.width), 300, color);
 				aiFrogs.add(f);
+				allFrogs.add(f);
 				var j : Int = Std.int(Math.random() * 50);
 
 				if (j < 25)
@@ -100,7 +108,18 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 					f.facing = FlxObject.RIGHT;
 				}
 		}
+
 		add(aiFrogs);
+
+		player1 = new PlayableFrog(Std.int(Math.random() * FlxG.width), FlxG.height - 100, selectedColors[0], 1);
+		player2 = new PlayableFrog(Std.int(Math.random() * FlxG.width), FlxG.height - 100, selectedColors[1], 2);
+		
+		players.add(player1);
+		players.add(player2);
+
+		allFrogs.add(player1);
+		allFrogs.add(player2);
+		add(players);
 
 		// Temporary landscape
 		land = new FlxSprite(0, FlxG.height - 6);
@@ -153,6 +172,10 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		}
 		add(critters);
 
+		hand = new Hand(0,0);
+		add(hand);
+		hand.visible = false;
+
 		//	FlxG.log (" DEBUG:  " + e_debug);
 
 	}
@@ -164,7 +187,7 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		if(FlxG.mouse.justPressed())
 			FlxG.mouse.hide();
 		
-		if (FlxG.keys.TAB || FlxG.keys.ENTER)
+		if ((FlxG.keys.TAB || FlxG.keys.ENTER) && !Global.paused)
 		{
 			Global.paused = true;
 
@@ -176,13 +199,43 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 			player1.pause();
 			player2.pause();
 
+			hand.visible = true;
+
+			selectFrogsArray = allFrogs.members;
+			selectFrogsArray.sort(function (x : FlxObject, y : FlxObject) : Int {
+					if (x.x < y.x)
+						return 1;
+					else if (x.x > y.x)
+						return -1;
+					else
+						return 0;
+				});
+
+			this.positionHand();
+
 			if (FlxG.keys.TAB)
 			{
-
+				pausedPlayer = 1;
 			} else if (FlxG.keys.ENTER)
 			{
 				// PLAYER 2
+				pausedPlayer = 2;
+			}
+		}
 
+		if (Global.paused)
+		{
+			if (FlxG.keys.justPressed("LEFT"))
+				this.positionHand(1);
+			else if (FlxG.keys.justPressed("RIGHT"))
+				this.positionHand(-1);
+			else if (FlxG.keys.justPressed("A"))
+				this.positionHand(1);
+			else if (FlxG.keys.justPressed("D"))			
+				this.positionHand(-1);
+			else if (FlxG.keys.justPressed("SPACE"))
+			{
+				guessOtherPlayer();
 			}
 		}
 
@@ -203,14 +256,64 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 	}
 
 	public function collectCritter (critter:FlxObject, player:FlxObject): Void {
-		effectsManager.showCritterCollectEffect(critter);
+		//effectsManager.showCritterCollectEffect(critter);
 		critter.kill();
 	    scores.collectBug (cast(player, PlayableFrog).playerNumber, false);
 	}
 	
-	public function guessOtherPlayer(player : Int) : Void {
+	public function guessOtherPlayer() : Void {
 		
-	}
-	
+		var o : Frog = cast(selectFrogsArray[hand.currentIndex], Frog);
 
+		if (pausedPlayer == 1)
+		{
+			if (o == player2)
+			{
+				// WIN!
+				//scores.guessWinner(1, true);
+				player2.end();
+			}
+			else
+			{
+				// LOSE
+				//scores.guessWinner(1, false);
+				player1.end();
+			}
+		}
+		else if (pausedPlayer == 2)
+		{
+			if (o == player1)
+			{
+				// WIN!
+				//scores.guessWinner(2, true);
+				player1.end();
+			}
+			else
+			{
+				// LOSE
+				//scores.guessWinner(2, false);
+				player2.end();
+			}
+		}
 	}
+
+	public function positionHand(offset : Int = 0)
+	{
+		var old : FlxSprite = cast(selectFrogsArray[hand.currentIndex], FlxSprite);
+		old.color = 0xffffffff;
+		hand.currentIndex += offset;
+
+		if (hand.currentIndex < 0)
+			hand.currentIndex = selectFrogsArray.length - 1;
+		else if (hand.currentIndex >= selectFrogsArray.length)
+			hand.currentIndex = 0;
+
+
+		var o : FlxSprite = cast(selectFrogsArray[hand.currentIndex], FlxSprite);
+
+		hand.x = o.x;
+		hand.y = o.y - 60;
+
+		o.color = 0xff00ff00;
+	}
+}
