@@ -13,7 +13,7 @@
 	
 	<!--<setenv name="no_console" value="1" />-->
 	
-	<app preloader="org.flixel.system.FlxPreloader" unless="target_js" />
+	<!--<app preloader="org.flixel.system.FlxPreloader" unless="target_js" />-->
 	
 	<classpath name="Source" />
 	
