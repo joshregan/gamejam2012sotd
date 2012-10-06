@@ -6,6 +6,8 @@ import org.flixel.FlxG;
 
 class PlayState extends FlxState		//The class declaration for the main game state
 {
+	var t:FlxText;
+
 	//This is where we create the main game state!
 	override public function create():Void
 	{
@@ -13,7 +15,7 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		FlxG.camera.bgColor = { rgb: 0x000000, a: 0xff };
 		#end
 		
-		var t:FlxText = new FlxText(0, Std.int(FlxG.height/2), FlxG.width, "Testing");
+		t = new FlxText(0, Std.int(FlxG.height/2), FlxG.width, "Testing");
 		t.alignment = "center";
 		add(t);
 	}
@@ -24,7 +26,8 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		//This just says if the user clicked on the game to hide the cursor
 		if(FlxG.mouse.justPressed())
 			FlxG.mouse.hide();
-			
+		
+		
 		//THIS IS SUPER IMPORTANT and also easy to forget.  But all those objects that we added
 		// to the state earlier (i.e. all of everything) will not get automatically updated
 		// if you forget to call this function.  This is basically saying "state, call update
