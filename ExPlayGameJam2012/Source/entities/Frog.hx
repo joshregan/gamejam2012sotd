@@ -47,7 +47,7 @@ class Frog extends FlxSprite
 		addAnimation("idle", [0,1,2,3,4,5,6,7], 8, true);
 		addAnimation("jump", [13,14,15,16], 16, false);
 		addAnimation("walk", [13,14,15,16,17,18,19], 16, true);
-		addAnimation("death", [37, 38], 4, true);
+		addAnimation("death", [39, 40], 4, true);
 
 		var animationDelay : Float = Math.random() * 2;
 		var timer : FlxTimer = new FlxTimer();

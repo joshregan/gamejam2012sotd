@@ -319,18 +319,20 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		
 		var o : Frog = cast(selectFrogsArray[hand.currentIndex], Frog);
 
+		o.color = 0xffffffff;
+		
 		if (pausedPlayer == 1)
 		{
 			if (o == player2)
 			{
 				// WIN!
-				//scores.guessWinner(1, true);
+				scores.guessWinner(1, true);
 				player2.end();
 			}
 			else
 			{
 				// LOSE
-				//scores.guessWinner(1, false);
+				scores.guessWinner(1, false);
 				player1.end();
 			}
 		}
@@ -339,13 +341,13 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 			if (o == player1)
 			{
 				// WIN!
-				//scores.guessWinner(2, true);
+				scores.guessWinner(2, true);
 				player1.end();
 			}
 			else
 			{
 				// LOSE
-				//scores.guessWinner(2, false);
+				scores.guessWinner(2, false);
 				player2.end();
 			}
 		}

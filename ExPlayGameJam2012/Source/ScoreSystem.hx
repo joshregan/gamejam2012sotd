@@ -167,6 +167,9 @@ class ScoreSystem
 	public function workoutEndRoundScore () {
 		p1Total = p1Total + p1Current;
 		p2Total = p2Total + p2Current;
+
+		p1Current = 0;
+		p2Current = 0;
 	}
 	
 }
