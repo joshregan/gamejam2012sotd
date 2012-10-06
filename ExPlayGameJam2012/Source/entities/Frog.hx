@@ -81,7 +81,7 @@ class Frog extends FlxSprite
 		else
 			this.velocity.x = 300;
 
-		this.velocity.y = -this.maxVelocity.y * 0.75;
+		this.velocity.y = -this.maxVelocity.y * 0.85;
 		this.drag.x = this.maxVelocity.x / 2;
 	}
 
