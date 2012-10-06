@@ -9,6 +9,8 @@ import org.flixel.FlxGroup;
 import org.flixel.FlxTimer;
 import entities.AIFrog;
 import entities.PlayableFrog;
+import entities.Critter;
+
 import org.flixel.FlxTimer;
 import flash.display.BlendMode;
 
@@ -22,6 +24,7 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 	public var aiFrogs : FlxGroup;
 	public var scenery : FlxGroup;
 	public var players : FlxGroup;
+	public var critters : FlxGroup;
 
 	var timer:FlxTimer;
 	
@@ -50,6 +53,7 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		scenery = new FlxGroup();
 
 		players = new FlxGroup();
+		critters = new FlxGroup();
 
 		background = new FlxSprite(0,0,"assets/Background1.png");
 		add(background);
@@ -106,6 +110,19 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		add(player2TotalScore);
 		
 		// temporarily add the timer
+		
+		// Loop to add Critters, using the 4 different images
+	    for (k in 0...5)
+		{
+			for (l in 1...4) {
+			var critter:Critter;
+			critter = new entities.Critter(Std.int(Math.random () * FlxG.width),Std.int(Math.random () * FlxG.width), l);
+
+			critters.add(critter);
+			}
+			
+		}
+		add(critters);
 	}
 	
 	//This is the main game loop function, where all the logic is done.
@@ -123,13 +140,22 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 
 		FlxG.collide(players, scenery);
 		FlxG.collide(aiFrogs, scenery);
+		
+		//check if any player is touching a critter
+		FlxG.overlap(critters, players, collectCritter);
 
-		player1TotalScore.text = "Player 1: " + player1Score;
-		player2TotalScore.text = "Player 2: " + player2Score;
+		player1TotalScore.text = "Player 1: " + scores.p1Current;
+		player2TotalScore.text = "Player 2: " + scores.p2Current;
 	}
 
-	public function guessOtherPlayer(player : Int) : Void
-	{
+	public function collectCritter (critter:FlxObject, player:FlxObject): Void {
+		critter.kill();
+	    scores.collectBug (cast(player, PlayableFrog).playerNumber, false);
+	}
+	
+	public function guessOtherPlayer(player : Int) : Void {
+		
+	}
+	
 
 	}
-}

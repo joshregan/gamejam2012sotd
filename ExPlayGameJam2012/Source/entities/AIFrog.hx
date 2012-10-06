@@ -7,29 +7,43 @@ import Assets;
 
 class AIFrog extends Frog
 {
+	var counter:Int;
+	var timeUntilNextMovementPhase:Int;
+	var currentMovementType:Int;
+
 	public function new(X : Int, Y : Int)
 	{
 		super(X, Y);
+		counter = 0;
+		timeUntilNextMovementPhase = 0;
 	}
 
 	override public function update()
 	{
-		// this.acceleration.x = 0;
-		// if (FlxG.keys.LEFT && this.isTouching(FlxObject.FLOOR))
-		// {
-		// 	this.walkLeft();
-		// }
-		// else if (FlxG.keys.RIGHT && this.isTouching(FlxObject.FLOOR))
-		// {
-		// 	this.walkRight();
-		// }
-		// else if (FlxG.keys.UP && this.isTouching(FlxObject.FLOOR))
-		// {
-		// 	this.jump();
-		// }
-		// else if (this.isTouching(FlxObject.FLOOR))
-		// {
-		// 	idle();
-		// }
+		if (counter < timeUntilNextMovementPhase)
+		{
+			counter++;
+		}
+		else
+		{
+			counter = 0;
+			timeUntilNextMovementPhase = Std.random(100) % 1 + 60;
+			currentMovementType = Std.random(4);
+		}
+		
+		if (this.isTouching(FlxObject.FLOOR))
+		{
+			switch(currentMovementType)
+			{
+				case 0:
+					this.walkLeft();
+				case 1:
+					this.walkRight();
+				case 2:
+					this.jump();
+				case 3:
+					this.idle();
+			}
+		}
 	}
 }

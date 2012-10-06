@@ -111,8 +111,15 @@
     <Compile Include="Assets\data\thunder_strike_1.mp3" />
     <Compile Include="Assets\data\thunder_strike_2.mp3" />
     <Compile Include="Assets\data\thunder_strike_3.mp3" />
+    <Compile Include="Source\Assets.hx" />
+    <Compile Include="Source\ScoreSystem.hx" />
+    <Compile Include="Source\entities\AIFrog.hx" />
+    <Compile Include="Source\entities\Critter.hx" />
+    <Compile Include="Source\entities\Frog.hx" />
+    <Compile Include="Source\entities\PlayableFrog.hx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\data\" />
+    <Folder Include="Source\entities\" />
   </ItemGroup>
 </Project>
