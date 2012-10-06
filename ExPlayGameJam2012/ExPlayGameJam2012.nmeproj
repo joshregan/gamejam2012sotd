@@ -106,6 +106,8 @@
     <Compile Include="Source\PlayState.hx" />
     <Compile Include="project.hxproj" />
     <Compile Include="Source\MenuState.hx" />
+    <Compile Include="Source\EffectsManager.hx" />
+    <Compile Include="Source\TestState.hx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\data\" />

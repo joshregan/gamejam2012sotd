@@ -15,7 +15,6 @@ class MenuState extends FlxState
 	var player1ControlsText:FlxText;
 	var player2ControlsText:FlxText;
 
-
 	override public function create():Void
 	{
 		#if neko
@@ -45,7 +44,7 @@ class MenuState extends FlxState
 		player1ControlsText.size = 20;
 		player1ControlsText.alignment = "left";
 		add(player1ControlsText);
-
+		
 		// Create text for player 2 controls
 		player2ControlsText = new FlxText(0, FlxG.height - Std.int(FlxG.height/3), FlxG.width, "Player 2 Controls\nLEFT = Move Left\nRIGHT = Move Right\nUP = Jump\nR SHIFT = Action");
 		player2ControlsText.size = 20;
@@ -62,6 +61,10 @@ class MenuState extends FlxState
 		if (FlxG.keys.SPACE)
 		{
 			FlxG.switchState(new PlayState());
+		}
+		else if (FlxG.keys.ONE)
+		{
+			FlxG.switchState(new TestState());
 		}
 		
 		super.update();
