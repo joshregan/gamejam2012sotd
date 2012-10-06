@@ -14,7 +14,9 @@ import entities.Critter;
 import entities.Frog.FrogColor;
 import org.flixel.FlxU;
 import org.flixel.FlxTimer;
+import org.flixel.plugin.TimerManager;
 import flash.display.BlendMode;
+
 
 class PlayState extends FlxState		//The class declaration for the main game state
 {
@@ -30,7 +32,8 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 	public var players : FlxGroup;
 	public var critters : FlxGroup;
 
-	var timer:FlxTimer;
+	var timerManager:TimerManager;
+	var playStateTimer:FlxTimer;
 	
 	public var scores : ScoreSystem;
 	var player1TotalScore:FlxText;
@@ -50,9 +53,7 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		Global.paused = false;
 
 
-		// Initialise timer per game
-		timer = new FlxTimer();
-		timer.start(60);
+
 		
 		// Initialise the score system, all totals set to 0
 		scores = new ScoreSystem();
@@ -157,8 +158,26 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 			
 		}
 		add(critters);
-
-		//	FlxG.log (" DEBUG:  " + e_debug);
+		
+		
+		// set up timer
+		
+	//var rainEffectTimer:FlxTimer = new FlxTimer();
+		//		rainEffectTimer.start(1, rainDuration, onTimer);
+			
+		/*
+		var numSeconds:Int;
+		FlxG.log (" Starting Timer");
+			playStateTimer = new FlxTimer();
+			timerManager = new TimerManager();
+			FlxG.log (" addint to timer manaager");
+			timerManager.add(playStateTimer);
+			FlxG.log (" start manaager");
+			playStateTimer.start(1, );
+		
+	//	numSeconds = timerManager.getProgress();
+		FlxG.log (" DEBUG:  " +playStateTimer.time);
+		*/
 
 	}
 	
@@ -170,6 +189,7 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 			FlxG.mouse.hide();
 			
 			effectsManager.update();
+			timerManager.update();
 		
 		if (FlxG.keys.TAB || FlxG.keys.ENTER)
 		{
@@ -220,7 +240,7 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 	}
 	
 	public function guessOtherPlayer(player : Int) : Void {
-		
+		//scores.guessWinner (player, timer);
 	}
 	
 

@@ -22,6 +22,7 @@ class ScoreSystem
 	public var winningScore:Int;
 	public var bugNormal:Int;
 	public var bugLightning:Int;
+	public var selectOtherPlayer:Int;
 	
 	// Winning score = 200
 	// score when you reveal other player dependent on time
@@ -36,9 +37,9 @@ class ScoreSystem
 		p2Current = 0;
 		p1Total = 0;
 		p2Total = 0;
-		bugNormal = 20;
-		bugLightning = 10;
-		winningScore = 200;
+		bugNormal = 100;
+		bugLightning = 200;
+		winningScore = 1000;
 		
 		
 	}
@@ -70,7 +71,28 @@ class ScoreSystem
 	// function to get points for guessing the other player
 	// triggered by pressing special key and then selecting the frog
 	// this is equal to elapsed number of seconds, max 60
-	public function guessWinner (player:Int, timer:FlxTimer): Void {
+	public function guessWinner (player:Int, isCorrect :Bool): Void {
+		
+		///var numSeconds:Int;
+	//	numSeconds = new Int(timer.getProgress);
+		
+		switch (player) {
+		case 1:
+			if (isCorrect) {
+			p1Current = p1Current + winningScore ;
+			}
+			else {
+			p2Current = p2Current + winningScore ;
+			}
+			
+		case 2:
+			if (isCorrect) {
+			p2Current = p2Current + winningScore ;
+			}
+			else {
+					p1Current = p1Current + winningScore ;
+			}
+		}
 		
 	}
 	
