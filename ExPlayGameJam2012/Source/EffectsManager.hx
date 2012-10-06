@@ -18,10 +18,6 @@ class EffectsManager {
 	var timerCreationThreshold:Int;
 	var rainDuration:Int;
 	
-	// Sounds
-	var rainSoundEffect:FlxSound;
-	var thunderSoundEffect:FlxSound;
-	
 	public function new () 
 	{
 		// Setup timer manager
@@ -29,29 +25,20 @@ class EffectsManager {
 		isCreatingTimers = false;
 		timerCreationCounter = 0;
 		timerCreationThreshold = 30;
-		
-		//rainSoundEffect = new FlxSound();
-		//rainSoundEffect.loadEmbedded("Rain", true, true);
-		
-		//thunderSoundEffect = new FlxSound();
-		//thunderSoundEffect.loadEmbedded("Thunder", false, true);
 	}		
 
 	public function showLightningEffect():Void
 	{
-		//thunderSoundEffect.play(true);
 		FlxG.flash(0xffffff, 0.2, showSecondaryLightningFlash, false); 
 	}
 	
 	private function showSecondaryLightningFlash():Void
 	{
 		FlxG.flash(0xffffff, 0.3, null, false); 
-		//thunderSoundEffect.stop();
 	}
 	
 	public function showRainEffect(duration:Int):Void
 	{
-		rainSoundEffect.play(false);
 		isCreatingTimers = true;
 		rainDuration = duration;
 	}
@@ -79,16 +66,11 @@ class EffectsManager {
 		rainEmitter.start(true, 3);
 	}
 	
-	private function onTimerCreateRainEmitter(Timer:FlxTimer):Void
+	private function onTimer(Timer:FlxTimer):Void
 	{
 		createRainEmitter();
 	}
-	
-	private function onTimerCreateStopRainSFX(Timer:FlxTimer):Void
-	{
-		rainSoundEffect.stop();
-	}
-	
+
 	public function update():Void
 	{
 		if (isCreatingTimers)
@@ -96,16 +78,13 @@ class EffectsManager {
 			if (timerCreationCounter < timerCreationThreshold)
 			{
 				var rainEffectTimer:FlxTimer = new FlxTimer();
-				rainEffectTimer.start(1, rainDuration, onTimerCreateRainEmitter);
+				rainEffectTimer.start(1, rainDuration, onTimer);
 				effectsTimerManager.add(rainEffectTimer);
 			
 				timerCreationCounter++;
 			}
 			else
 			{
-/*				var stopRainSFXTimer:FlxTimer = new FlxTimer();
-				stopRainSFXTimer.start(rainDuration, 1, onTimerCreateStopRainSFX);
-				effectsTimerManager.add(stopRainSFXTimer);*/
 				timerCreationCounter = 0;
 				isCreatingTimers = false;
 			}
