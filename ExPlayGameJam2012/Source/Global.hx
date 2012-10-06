@@ -4,5 +4,5 @@ import ScoreSystem;
 
 class Global
 {
-	static var 
+	public static var paused : Bool;
 }

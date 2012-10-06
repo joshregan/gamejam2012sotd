@@ -4,14 +4,16 @@ import org.flixel.FlxSprite;
 import org.flixel.FlxG;
 import org.flixel.FlxObject;
 import Assets;
+import Global;
+import entities.Frog.FrogColor;
 
 class PlayableFrog extends Frog
 {
 	public var playerNumber : Int;
 
-	public function new(X : Int, Y : Int, playerNum : Int)
+	public function new(X : Int, Y : Int, color : FrogColor, playerNum : Int)
 	{
-		super(X, Y);
+		super(X, Y, color);
 
 		this.playerNumber = playerNum;
 	}
@@ -42,23 +44,26 @@ class PlayableFrog extends Frog
 
 	override public function update()
 	{
-		this.acceleration.x = 0;
-		if (this.leftKey() && this.isTouching(FlxObject.FLOOR))
+		if (!Global.paused)
 		{
-			this.walkLeft();
-		}
-		else if (this.rightKey() && this.isTouching(FlxObject.FLOOR))
-		{
-			this.walkRight();
-		}
-		else if (this.isTouching(FlxObject.FLOOR))
-		{
-			idle();
-		}
-		
-		if (this.jumpKey() && this.isTouching(FlxObject.FLOOR))
-		{
-			this.jump();
+			this.acceleration.x = 0;
+			if (this.leftKey() && this.isTouching(FlxObject.FLOOR))
+			{
+				this.walkLeft();
+			}
+			else if (this.rightKey() && this.isTouching(FlxObject.FLOOR))
+			{
+				this.walkRight();
+			}
+			else if (this.isTouching(FlxObject.FLOOR))
+			{
+				idle();
+			}
+			
+			if (this.jumpKey() && this.isTouching(FlxObject.FLOOR))
+			{
+				this.jump();
+			}
 		}
 	}
 }
