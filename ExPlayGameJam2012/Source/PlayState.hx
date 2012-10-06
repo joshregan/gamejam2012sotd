@@ -9,6 +9,8 @@ import org.flixel.FlxGroup;
 import org.flixel.FlxTimer;
 import entities.AIFrog;
 import entities.PlayableFrog;
+import entities.Critter;
+
 import org.flixel.FlxTimer;
 
 class PlayState extends FlxState		//The class declaration for the main game state
@@ -105,6 +107,13 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		add(player2TotalScore);
 		
 		// temporarily add the timer
+		
+		
+		// temporarily add  a critter
+		var critter:Critter;
+		critter = new entities.Critter(25,25);
+		add (critter);
+		
 		
 		
 	}
