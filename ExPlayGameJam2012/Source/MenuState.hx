@@ -27,6 +27,7 @@ class MenuState extends FlxState
 		titleText.alignment = "center";
 		add(titleText);
 		
+		FlxG.log("TESTING TESTING");
 		// Create text for the start game instructions
 		startGameInstructionText = new FlxText(0, Std.int(FlxG.height/3), FlxG.width, "Press SPACE to start your froggy adventure!");
 		startGameInstructionText.size = 24;
