@@ -5,6 +5,7 @@ import org.flixel.FlxParticle;
 import org.flixel.FlxEmitter;
 import org.flixel.FlxTimer;
 import org.flixel.FlxSound;
+import org.flixel.FlxObject;
 import org.flixel.plugin.TimerManager;
 
 /*
@@ -85,6 +86,30 @@ class EffectsManager {
 
 		FlxG.state.add(rainEmitter);
 		rainEmitter.start(true, 5);
+	}
+	
+	public function showCritterCollectEffect(critter:FlxObject):Void
+	{
+		var critterCollectEmitter : FlxEmitter = new FlxEmitter(0,0,10);
+		critterCollectEmitter.setXSpeed(-30,30);
+		critterCollectEmitter.setYSpeed(-30,30);
+		critterCollectEmitter.setRotation(0, 0);
+		critterCollectEmitter.gravity = 180;
+		critterCollectEmitter.bounce = 0.2;
+
+		var critterCollectPixel : FlxParticle;
+		for (i in 0...critterCollectEmitter.maxSize) 
+		{
+		    critterCollectPixel = new FlxParticle();
+		    critterCollectPixel.makeGraphic(1, 1, 0xff00ff00);
+		    critterCollectPixel.visible = false;
+		    critterCollectEmitter.add(critterCollectPixel);
+		}
+
+
+		FlxG.state.add(critterCollectEmitter);
+		critterCollectEmitter.at(critter);
+		critterCollectEmitter.start(true, 5);
 	}
 	
 	private function onTimer(Timer:FlxTimer):Void

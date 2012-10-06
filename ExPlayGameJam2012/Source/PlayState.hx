@@ -155,6 +155,7 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 	}
 
 	public function collectCritter (critter:FlxObject, player:FlxObject): Void {
+		effectsManager.showCritterCollectEffect(critter);
 		critter.kill();
 	    scores.collectBug (cast(player, PlayableFrog).playerNumber, effectsManager.checkIfShowingLightningFlash());
 	}
