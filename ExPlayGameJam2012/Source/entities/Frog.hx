@@ -3,6 +3,7 @@ package entities;
 import org.flixel.FlxSprite;
 import org.flixel.FlxG;
 import org.flixel.FlxObject;
+import org.flixel.FlxTimer;
 import Assets;
 
 class Frog extends FlxSprite
@@ -22,7 +23,11 @@ class Frog extends FlxSprite
 		addAnimation("jump", [13,14,15,16], 16, false);
 		addAnimation("walk", [13,14,15,16,17,18,19], 16, true);
 
-		play("idle");
+		var animationDelay : Float = Math.random() * 2;
+		var timer : FlxTimer = new FlxTimer();
+		timer.start(animationDelay, 0, function(timer : FlxTimer) {
+			play("idle");
+		});
 	}
 
 	public function jump()
