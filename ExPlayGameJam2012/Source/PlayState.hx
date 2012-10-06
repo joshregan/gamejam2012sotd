@@ -6,16 +6,20 @@ import org.flixel.FlxG;
 import org.flixel.FlxSprite;
 import org.flixel.FlxObject;
 import org.flixel.FlxGroup;
+import org.flixel.FlxTimer;
 import entities.AIFrog;
 import entities.PlayableFrog;
 
 class PlayState extends FlxState		//The class declaration for the main game state
 {
-	public var player : PlayableFrog;
+	public var player1 : PlayableFrog;
+	public var player2 : PlayableFrog;
+
 	public var land : FlxSprite;
 	public var background : FlxSprite;
 	public var aiFrogs : FlxGroup;
 	public var scenery : FlxGroup;
+	public var players : FlxGroup;
 
 	public var scores : ScoreSystem;
 	var player1TotalScore:FlxText;
@@ -37,12 +41,18 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 
 		scenery = new FlxGroup();
 
+		players = new FlxGroup();
+
 		background = new FlxSprite(0,0,"assets/Background1.png");
 		add(background);
 
 		// Temporary frog
-		player = new PlayableFrog(100, 100);
-		add(player);
+		player1 = new PlayableFrog(100, 30, 1);
+		player2 = new PlayableFrog(700, 30, 2);
+		
+		players.add(player1);
+		players.add(player2);
+		add(players);
 
 		for (i in 0...16)
 		{
@@ -75,14 +85,16 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		
 		// Create text for player 1 score
 		player1Score = scores.getCurrentScore (1);
-		player1TotalScore = new FlxText(0, FlxG.height - Std.int(FlxG.height / 3), FlxG.width, "Player 1: " + player1Score);
+		player1TotalScore = new FlxText(0, 10, FlxG.width, "Player 1: " + player1Score);
 		player1TotalScore.alignment = "left";
+		player1TotalScore.size = 20;
 		add(player1TotalScore);
 		
 		// Create text for player 2 score
 		player2Score = scores.getCurrentScore (2);
-		player2TotalScore = new FlxText(0, FlxG.height - Std.int(FlxG.height / 3), FlxG.width, "Player 2: " + player2Score);
+		player2TotalScore = new FlxText(0, 10, FlxG.width, "Player 2: " + player2Score);
 		player2TotalScore.alignment = "right";
+		player2TotalScore.size = 20;
 		add(player2TotalScore);
 		
 	}
@@ -100,8 +112,15 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		// right now on all of the objects that were added."
 		super.update();
 
-		FlxG.collide(player, scenery);
+		FlxG.collide(players, scenery);
 		FlxG.collide(aiFrogs, scenery);
+
+		player1TotalScore.text = "Player 1: " + player1Score;
+		player2TotalScore.text = "Player 2: " + player2Score;
+	}
+
+	public function guessOtherPlayer(player : Int) : Void
+	{
 
 	}
 }

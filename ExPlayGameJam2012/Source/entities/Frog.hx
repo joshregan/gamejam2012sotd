@@ -22,6 +22,7 @@ class Frog extends FlxSprite
 		addAnimation("jump", [13,14,15,16], 16, false);
 		addAnimation("walk", [13,14,15,16,17,18,19], 16, true);
 
+		var animationDelay : Float = Math.random() * 2;
 		play("idle");
 	}
 
