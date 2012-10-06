@@ -4,35 +4,56 @@ import org.flixel.FlxG;
 import org.flixel.FlxParticle;
 import org.flixel.FlxEmitter;
 import org.flixel.FlxTimer;
+import org.flixel.FlxSound;
 import org.flixel.plugin.TimerManager;
 
 /*
  * @author Josh
  */
 class EffectsManager {
-	
+	// Variables for rain emitter creation
 	var effectsTimerManager:TimerManager;
 	var isCreatingTimers:Bool;
 	var timerCreationCounter:Int;
 	var timerCreationThreshold:Int;
 	var rainDuration:Int;
 	
-	public function new () {
-		
+	// Sounds
+	var rainSoundEffect:FlxSound;
+	var thunderSoundEffect:FlxSound;
+	
+	public function new () 
+	{
+		// Setup timer manager
 		effectsTimerManager = new TimerManager();
 		isCreatingTimers = false;
 		timerCreationCounter = 0;
 		timerCreationThreshold = 30;
+		
+		//rainSoundEffect = new FlxSound();
+		//rainSoundEffect.loadEmbedded("Rain", true, true);
+		
+		//thunderSoundEffect = new FlxSound();
+		//thunderSoundEffect.loadEmbedded("Thunder", false, true);
 	}		
 
 	public function showLightningEffect():Void
 	{
+		//thunderSoundEffect.play(true);
 		FlxG.flash(0xffffff, 0.2, showSecondaryLightningFlash, false); 
 	}
 	
 	private function showSecondaryLightningFlash():Void
 	{
 		FlxG.flash(0xffffff, 0.3, null, false); 
+		//thunderSoundEffect.stop();
+	}
+	
+	public function showRainEffect(duration:Int):Void
+	{
+		rainSoundEffect.play(false);
+		isCreatingTimers = true;
+		rainDuration = duration;
 	}
 	
 	private function createRainEmitter():Void
@@ -58,15 +79,14 @@ class EffectsManager {
 		rainEmitter.start(true, 3);
 	}
 	
-	public function showRainEffect(duration:Int):Void
-	{
-		isCreatingTimers = true;
-		rainDuration = duration;
-	}
-	
-	private function onTimer(Timer:FlxTimer):Void
+	private function onTimerCreateRainEmitter(Timer:FlxTimer):Void
 	{
 		createRainEmitter();
+	}
+	
+	private function onTimerCreateStopRainSFX(Timer:FlxTimer):Void
+	{
+		rainSoundEffect.stop();
 	}
 	
 	public function update():Void
@@ -76,13 +96,16 @@ class EffectsManager {
 			if (timerCreationCounter < timerCreationThreshold)
 			{
 				var rainEffectTimer:FlxTimer = new FlxTimer();
-				rainEffectTimer.start(1, rainDuration, onTimer);
+				rainEffectTimer.start(1, rainDuration, onTimerCreateRainEmitter);
 				effectsTimerManager.add(rainEffectTimer);
 			
 				timerCreationCounter++;
 			}
 			else
 			{
+/*				var stopRainSFXTimer:FlxTimer = new FlxTimer();
+				stopRainSFXTimer.start(rainDuration, 1, onTimerCreateStopRainSFX);
+				effectsTimerManager.add(stopRainSFXTimer);*/
 				timerCreationCounter = 0;
 				isCreatingTimers = false;
 			}
