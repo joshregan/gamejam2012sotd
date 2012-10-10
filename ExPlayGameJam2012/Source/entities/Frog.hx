@@ -4,6 +4,7 @@ import org.flixel.FlxSprite;
 import org.flixel.FlxG;
 import org.flixel.FlxObject;
 import org.flixel.FlxTimer;
+import org.flixel.FlxSound;
 import Assets;
 
  enum FrogColor {
@@ -17,6 +18,8 @@ import Assets;
 
 class Frog extends FlxSprite
 {
+	private var ribbit : FlxSound;
+
    	public function new(X : Int, Y : Int, color : FrogColor)
 	{
 		super(X, Y);
@@ -77,12 +80,15 @@ class Frog extends FlxSprite
 	{
 		play("jump");
 		
+
+		
 		if (this.facing == FlxObject.RIGHT)
 			this.velocity.x = -300;
 		else
 			this.velocity.x = 300;
 
-		this.velocity.y = -this.maxVelocity.y * 0.75;
+
+		this.velocity.y = -this.maxVelocity.y * 0.85;
 		this.drag.x = this.maxVelocity.x / 2;
 	}
 

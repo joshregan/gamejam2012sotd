@@ -1,0 +1,16 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mac" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ExPlayGameJam2012/Source/PlayState.hx">
+    <Files>
+      <File FileName="ExPlayGameJam2012/project.nmml" Line="1" Column="1" />
+      <File FileName="ExPlayGameJam2012/Source/Main.hx" Line="1" Column="1" />
+      <File FileName="ExPlayGameJam2012/Source/FrogGame.hx" Line="9" Column="3" />
+      <File FileName="ExPlayGameJam2012/Source/PlayState.hx" Line="23" Column="4" />
+      <File FileName="ExPlayGameJam2012/project.hxproj" Line="46" Column="30" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

@@ -55,6 +55,8 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 	//This is where we create the main game state!
 	override public function create():Void
 	{
+		FlxG.camera.y = 208;
+
 		#if neko
 		FlxG.camera.bgColor = { rgb: 0x000000, a: 0xff };
 		#end

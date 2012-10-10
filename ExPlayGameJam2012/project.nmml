@@ -20,7 +20,7 @@
 	<haxelib name="nme" />
 	<haxelib name="flixel" />
 	
-	<assets path="Assets" rename="assets" if="android" >
+	<assets path="Assets" rename="assets" if="mobile" >
 		<sound path="data/beep.wav" id="Beep" />
 	</assets>
 	
@@ -37,6 +37,7 @@
 	<assets path="assets" include="*.csv" type="text" />
 	<assets path="assets" include="*.txt" type="text" />
 	<assets path="assets" include="*.png" type="image" />
+	<assets path="assets" include="*.mp3" type="sound" />
 	<assets path="assets/data" include="*.png" type="image" />
 	<assets path="assets/data/vcr" include="*.png" type="image" />
 	<assets path="assets/data/vis" include="*.png" type="image" />

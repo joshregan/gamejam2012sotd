@@ -38,11 +38,9 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 	var timerManager:TimerManager;
 	var playStateTimer:FlxTimer;
 	
+	public var scores : ScoreSystem;
 	var player1TotalScore:FlxText;
 	var player2TotalScore:FlxText;
-
-	var player1TotalTotalScore:FlxText;
-	var player2TotalTotalScore:FlxText;
 	var player1Score:Int;
 	var player2Score:Int;
 
@@ -58,8 +56,6 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		#if neko
 		FlxG.camera.bgColor = { rgb: 0x000000, a: 0xff };
 		#end
-
-		FlxG.playMusic("assets/Adenine.mp3");
 		
 		// Initialise effect manager (will begin randomly generating weather)
 	   	// Initialise effects manager
@@ -69,17 +65,13 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		timer = new FlxTimer();
 		timer.start(60);
 
-		Global.endGame = false;
-
 		Global.paused = false;
 
-		if (Global.roundNumber == 1)
-		{
-			Global.scores = new ScoreSystem();
-		}
+
 
 		
 		// Initialise the score system, all totals set to 0
+		scores = new ScoreSystem();
 		
 		aiFrogs = new FlxGroup();
 
@@ -158,25 +150,23 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		var rightBorder : FlxObject =  new FlxObject(FlxG.width, 0, 20, FlxG.height);
 		rightBorder.immovable = true;
 		scenery.add(rightBorder);
-		this.createPlatforms();
+		this.CreatePlatforms();
 		add(scenery);
 		
 		// Create text for player 1 score
-		player1Score = Global.scores.getCurrentScore (1);
+		player1Score = scores.getCurrentScore (1);
 		player1TotalScore = new FlxText(0, 10, FlxG.width, "Player 1: " + player1Score);
 		player1TotalScore.alignment = "left";
 		player1TotalScore.size = 20;
 		add(player1TotalScore);
 		
 		// Create text for player 2 score
-		player2Score = Global.scores.getCurrentScore (2);
+		player2Score = scores.getCurrentScore (2);
 		player2TotalScore = new FlxText(0, 10, FlxG.width, "Player 2: " + player2Score);
 		player2TotalScore.alignment = "right";
 		player2TotalScore.size = 20;
 		add(player2TotalScore);
 		
-
-
 		// temporarily add the timer
 		
 		// Loop to add Critters, using the 4 different images
@@ -226,43 +216,16 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 
 	}
 
-	private function createPlatforms()
+	private function CreatePlatforms()
 	{
-		var	platform = new FlxSprite(0, FlxG.height - 80);
+		var	platform = new FlxSprite(300, FlxG.height - 200);
 		platform.loadGraphic("assets/TreePlatform5.png");
 		platform.immovable = true;
 		platform.visible = true;
 		platform.allowCollisions = FlxObject.UP;
 		scenery.add(platform);
-		
-		var	platform2 = new FlxSprite(240, FlxG.height - 130);
-		platform2.loadGraphic("assets/TreePlatform5.png");
-		platform2.immovable = true;
-		platform2.visible = true;
-		platform2.allowCollisions = FlxObject.UP;
-		scenery.add(platform2);
-		
-		var	platform3 = new FlxSprite(0, FlxG.height - 180);
-		platform3.loadGraphic("assets/TreePlatform5.png");
-		platform3.immovable = true;
-		platform3.visible = true;
-		platform3.allowCollisions = FlxObject.UP;
-		scenery.add(platform3);
-		
-		var	platform4 = new FlxSprite(240, FlxG.height - 230);
-		platform4.loadGraphic("assets/TreePlatform5.png");
-		platform4.immovable = true;
-		platform4.visible = true;
-		platform4.allowCollisions = FlxObject.UP;
-		scenery.add(platform4);
-		
-		var	platform5 = new FlxSprite(FlxG.width-290, FlxG.height - 80);
-		platform5.loadGraphic("assets/TreePlatform5.png");
-		platform5.immovable = true;
-		platform5.visible = true;
-		platform5.allowCollisions = FlxObject.UP;
-		scenery.add(platform5);
 	}
+
 	
 	//This is the main game loop function, where all the logic is done.
 	override public function update():Void
@@ -272,7 +235,7 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 			FlxG.mouse.hide();
 			
 			effectsManager.update();
-			//timerManager.update();
+			timerManager.update();
 		
 		if ((FlxG.keys.TAB || FlxG.keys.ENTER) && !Global.paused)
 		{
@@ -322,23 +285,7 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 				this.positionHand(-1);
 			else if (FlxG.keys.justPressed("SPACE"))
 			{
-				if (!Global.endGame)
-				{
-					guessOtherPlayer();
-				}
-				else
-				{
-					if (Global.roundNumber > 3)
-					{
-						// END GAME
-						Global.scores = new ScoreSystem();
-						FlxG.switchState(new MenuState());
-					}
-					else
-					{
-						FlxG.resetState();
-					}
-				}
+				guessOtherPlayer();
 			}
 		}
 
@@ -357,42 +304,35 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		//check if any player is touching a critter
 		FlxG.overlap(critters, players, collectCritter);
 
-		player1TotalScore.text = "Player 1: " + Global.scores.p1Current + " Total: " + Global.scores.p1Total;
-		player2TotalScore.text = "Player 2: " + Global.scores.p2Current + " Total: " + Global.scores.p2Total;
+		player1TotalScore.text = "Player 1: " + scores.p1Current;
+		player2TotalScore.text = "Player 2: " + scores.p2Current;
 	}
 
 	public function collectCritter (critter:FlxObject, player:FlxObject): Void {
 		//effectsManager.showCritterCollectEffect(critter);
 		critter.kill();
-		Global.scores.collectBug (cast(player, PlayableFrog).playerNumber, effectsManager.checkIfShowingLightningFlash());
+		scores.collectBug (cast(player, PlayableFrog).playerNumber, effectsManager.checkIfShowingLightningFlash());
 	    //scores.collectBug (cast(player, PlayableFrog).playerNumber, false);
 	}
 	
-	public function guessOtherPlayer() : Void 
-	{
-		Global.endGame = true;
-
+	public function guessOtherPlayer() : Void {
+		
 		var o : Frog = cast(selectFrogsArray[hand.currentIndex], Frog);
 
 		o.color = 0xffffffff;
 		
-		var winText : FlxText = new FlxText(0, Std.int(FlxG.height * 0.5), FlxG.width, "");
-		winText.alignment = "center";
-		winText.size = 50;
-		add(winText);
-
 		if (pausedPlayer == 1)
 		{
 			if (o == player2)
 			{
 				// WIN!
-				Global.scores.guessWinner(1, true);
+				scores.guessWinner(1, true);
 				player2.end();
 			}
 			else
 			{
 				// LOSE
-				Global.scores.guessWinner(1, false);
+				scores.guessWinner(1, false);
 				player1.end();
 			}
 		}
@@ -401,28 +341,16 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 			if (o == player1)
 			{
 				// WIN!
-				Global.scores.guessWinner(2, true);
+				scores.guessWinner(2, true);
 				player1.end();
 			}
 			else
 			{
 				// LOSE
-				Global.scores.guessWinner(2, false);
+				scores.guessWinner(2, false);
 				player2.end();
 			}
 		}
-
-		hand.velocity.y = -20;
-
-		Global.scores.workoutEndRoundScore();
-
-		Global.roundNumber += 1;
-		player1TotalScore.text = "Player 1: " + Global.scores.p1Current + " Total: " + Global.scores.p1Total;
-		player2TotalScore.text = "Player 2: " + Global.scores.p2Current + " Total: " + Global.scores.p2Total;
-
-		// UPDATE WIN TEXT
-		var winner : Int = Global.scores.getTotalWinner();
-		winText.text = "Player " + Std.string(winner) + " wins!";
 	}
 
 	public function positionHand(offset : Int = 0)

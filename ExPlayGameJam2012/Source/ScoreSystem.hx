@@ -153,7 +153,7 @@ class ScoreSystem
 	
 	
 	// function to work out winner for the game
-	public function getTotalWinner (void ):Int {
+	public function getTotalWinner ():Int {
 		if (p1Total > p2Total ){
 			return 1;
 		}else if ( p2Total > p1Total) {

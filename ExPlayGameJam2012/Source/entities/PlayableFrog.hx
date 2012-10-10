@@ -20,7 +20,7 @@ class PlayableFrog extends Frog
 
 	private function leftKey() : Bool
 	{
-		if (this.playerNumber == 1)
+		if (this.playerNumber == 2)
 			return FlxG.keys.LEFT;
 		else 
 			return FlxG.keys.A;
@@ -28,7 +28,7 @@ class PlayableFrog extends Frog
 
 	private function rightKey() : Bool
 	{
-		if (this.playerNumber == 1)
+		if (this.playerNumber == 2)
 			return FlxG.keys.RIGHT;
 		else 
 			return FlxG.keys.D;
@@ -36,7 +36,7 @@ class PlayableFrog extends Frog
 
 	private function jumpKey() : Bool
 	{
-		if (this.playerNumber == 1)
+		if (this.playerNumber == 2)
 			return FlxG.keys.UP;
 		else 
 			return FlxG.keys.W;
@@ -62,6 +62,7 @@ class PlayableFrog extends Frog
 			
 			if (this.jumpKey() && this.isTouching(FlxObject.FLOOR))
 			{
+				FlxG.play("assets/Frog.mp3");
 				this.jump();
 			}
 		}
