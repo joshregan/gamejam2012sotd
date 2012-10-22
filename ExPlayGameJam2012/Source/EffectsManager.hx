@@ -68,28 +68,34 @@ class EffectsManager {
 		isCreatingTimers = true;
 		rainDuration = duration;
 	}
+
+	public function startRain() : Void
+	{
+		this.createRainEmitter();
+	}
 	
 	private function createRainEmitter():Void
 	{
-		var rainEmitter : FlxEmitter = new FlxEmitter(0,0,10);
-		rainEmitter.width = FlxG.width+180;
-		rainEmitter.setXSpeed(-70,-80);
-		rainEmitter.setYSpeed(70,80);
-		rainEmitter.setRotation(0, 0);
-		rainEmitter.gravity = 80;
+		
+		var rainEmitter : FlxEmitter = new FlxEmitter(0,0,250);
+		rainEmitter.width = FlxG.width*1.5;
+		rainEmitter.setXSpeed(-110,-120);
+		rainEmitter.setYSpeed(260,280);
+		rainEmitter.minRotation = 0;
+		rainEmitter.maxRotation = 0;
 		rainEmitter.bounce = 0.2;
 
 		var rainDropPixel : FlxParticle;
-		for (i in 0...rainEmitter.maxSize) 
+		for (i in 0...250) 
 		{
 		    rainDropPixel = new FlxParticle();
-		    rainDropPixel.makeGraphic(2, 2, 0xff0000ff);
-		    rainDropPixel.visible = false;
+		    rainDropPixel.makeGraphic(2, 12, 0xff304b6f);
+			rainDropPixel.angle = 25;
 		    rainEmitter.add(rainDropPixel);
 		}
 
 		FlxG.state.add(rainEmitter);
-		rainEmitter.start(true, 5);
+		rainEmitter.start(false, 15.0, 0.010);
 	}
 	
 	public function showCritterCollectEffect(critter:FlxObject):Void

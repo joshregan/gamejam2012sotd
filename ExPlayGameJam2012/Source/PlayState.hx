@@ -89,7 +89,7 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 		critters = new FlxGroup();
 		allFrogs = new FlxGroup();
 
-		background = new FlxSprite(0,0,"assets/scenery/BG.png");
+		background = new FlxSprite(0,0,"assets/scenery/swamp.jpg");
 		add(background);
 
 		// Temporary frog
@@ -223,6 +223,7 @@ class PlayState extends FlxState		//The class declaration for the main game stat
 	//	numSeconds = timerManager.getProgress();
 		FlxG.log (" DEBUG:  " +playStateTimer.time);
 		*/
+		effectsManager.startRain();
 
 	}
 
